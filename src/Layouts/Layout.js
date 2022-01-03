@@ -20,9 +20,9 @@ const Layout = ({ children }) => {
             <Hamburger toggle={setOpen} toggled={isOpen} direction='left' color='white' size={45} />
         </nav>
         <main>{children}</main>
-        <footer>
+        {/* <footer>
             Footer
-        </footer>
+        </footer> */}
         </>
   )
 }

@@ -3,10 +3,55 @@
 }
 
 .newest-cars {
+    box-shadow: 5px 10px 8px 10px #888888;
     display: flex;
-    flex-wrap: wrap;
+    gap: 3rem;
     padding: 2rem;
-    gap: 2rem;
+    overflow-x: hidden;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 6rem;
+    margin-right: 6rem;
+    scroll-behavior: smooth;
+}
+
+.newest-cars-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+}
+
+.scroll-right, .scroll-left {
+    width: 10%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: black;
+    border:2px solid black;
+    transform: skewX(-10deg);
+}
+
+.scroll-right {
+    margin-right: 5rem;
+}
+
+.scroll-left {
+    margin-left: 5rem;
+}
+
+.scroll-left:hover {
+    transition: 0.3s;
+    color: black;
+    background: white;
+}
+
+.scroll-right:hover {
+    transition: 0.3s;
+    color: black;
+    background: white;
 }
 
 .car-card {
@@ -14,8 +59,8 @@
     background-color: rgba(128, 128, 128, 0.2);
     width: 15vw;
     border-radius: 20px;
-    border: 3px solid #45697D;
-    flex: 1 1 auto;
+    border: 3px solid #39D3E3;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
 }
@@ -37,12 +82,35 @@
 
 .car-card > *, div > * {
     font-size: 1rem;
+}   
+
+::-webkit-scrollbar {
+    height: 10px;
+    margin-bottom: 2rem;
+}
+   
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+::-webkit-scrollbar-track-piece {
+    background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-track-piece:end {
+    margin-right: 200px;
+}
+
+::-webkit-scrollbar-track-piece:start {
+    margin-left: 200px;
 }
 
 @media screen and (max-width: 990px) {
-    .newest-cars {
-        flex-direction: column;
-    }
     .car-card {
         width: 100%;
     }
