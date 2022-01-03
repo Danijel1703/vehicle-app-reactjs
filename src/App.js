@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import Layout from './Layouts/Layout'
+import './App.css'
 
-function App() {
+function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Layout>
+        <div className='homepage'>
+          Ovo je neki app.js content
+          <div className='newest-cars'>
+            <div>
+              Card
+            </div>
+          </div>
+        </div>
+      </Layout>
+    </>
+  )
 }
 
-export default App;
+export default App
