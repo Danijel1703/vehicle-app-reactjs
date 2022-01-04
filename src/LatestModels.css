@@ -1,0 +1,153 @@
+.latest-models-container {
+    background: grey; 
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+}
+
+.latest-models-text {
+    font-size: 2.5em;
+    margin-left: 1em;
+}
+
+.view-all-text {
+    align-self: flex-end;
+    color: #3FB9FD;
+    text-shadow: 1px 1px black;
+    margin-right: 3em;
+    font-size: 1.5rem;
+}
+
+.view-all-text:hover {
+    cursor: pointer;
+}
+
+.latest-models {
+    background: white; 
+    box-shadow: 5px 5px 8px 5px black;
+    display: flex;
+    gap: 3rem;
+    padding: 2rem;
+    overflow-x: hidden;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 6rem;
+    margin-right: 6rem;
+    scroll-behavior: smooth;
+}
+
+.latest-models-section {
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow-x: auto;
+}
+
+.scroll-right, .scroll-left {
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: black;
+    border:2px solid black;
+    transform: skewX(-10deg);
+}
+
+.scroll-right {
+    margin-right: 5rem;
+}
+
+.scroll-left {
+    margin-left: 5rem;
+}
+
+.scroll-left:hover {
+    transition: 0.3s;
+    color: black;
+    background: white;
+}
+
+.scroll-right:hover {
+    transition: 0.3s;
+    color: black;
+    background: white;
+}
+
+.car-card {
+    padding: 0.5rem;
+    background-color: rgba(128, 128, 128, 0.2);
+    width: 15vw;
+    border-radius: 20px;
+    border: 3px solid #39D3E3;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-card > img {
+    max-width: 100%;
+}
+
+.card-text {
+    font-size: 2vh;
+}
+
+.car-card-img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.car-card > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.car-card > *, div > * {
+    font-size: 1rem;
+}   
+
+.more-info-button {
+    width: 70%;
+    height: 2.5rem;
+    border:none;
+    background-color: #3FFD6F;
+    color: white;
+    border: 2px solid #3FFD6F;
+    border-radius: 10px;
+    align-self: flex-end;
+}
+
+.more-info-button:hover {
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: white;
+    color: black;
+}
+
+@media screen and (max-width: 990px) {
+}
+
+@media screen and (max-width: 750px) {
+    .scroll-right, .scroll-left {
+        display: none;
+    }
+
+    .latest-models {
+        box-shadow: none;
+        margin: 0;
+        overflow-x: auto;
+    }
+
+    .latest-models-section {
+        background: white;
+        justify-content: space-evenly;
+    }
+
+    .car-card {
+        width: 100%;
+    }   
+}
