@@ -5,6 +5,8 @@ import {
   Route
 } from 'react-router-dom'
 import Home from './Pages/Home'
+import Vehicles from './Pages/Vehicles'
+import AddNewVehicles from './Pages/AddNewVehicles'
 
 // eslint-disable-next-line react/prop-types
 function App () {
@@ -12,8 +14,9 @@ function App () {
     <>
       <Layout>
         <Routes>
-            {/* <Route path='/' element={<App />} /> */}
             <Route path='/' element={<Home />} />
+            <Route path='/vehicles' element={<Vehicles />} />
+            <Route path='/addNew' element={<AddNewVehicles />} />
         </Routes>
       </Layout>
     </>
