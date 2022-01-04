@@ -17,7 +17,12 @@
     gap: 5rem;
 }
 
-.navbar-content > li {
+.navbar-content > a {
+    text-decoration: none;
+    color: white;
+}
+
+.navbar-content > a > li {
     padding-top: 1rem;
     padding-bottom: 1rem;
     border-top: 5px solid black;
@@ -25,9 +30,13 @@
     cursor: pointer;
 }
 
-.navbar-content > li:hover {
+.navbar-content > a > li:hover {
     border-bottom-color: white;
     transition: 0.3s;
+}
+
+.navbar-content > a.active > li {
+    border-bottom-color: white;
 }
 
 .hamburger-react {
