@@ -1,8 +1,9 @@
+import '../Vehicles.css'
+
 const Vehicles = () => {
   return (
-        <div>
-            Homepage
-        </div>
+    <div className='vehicles'>
+    </div>
   )
 }
 

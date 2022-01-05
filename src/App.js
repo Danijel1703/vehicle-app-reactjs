@@ -16,7 +16,7 @@ function App () {
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/vehicles' element={<Vehicles />} />
-            <Route path='/addNew' element={<AddNewVehicles />} />
+            <Route path='/addNew' element={<AddNewVehicles />} /> {/* Komponenta u izradi */}
         </Routes>
       </Layout>
     </>
