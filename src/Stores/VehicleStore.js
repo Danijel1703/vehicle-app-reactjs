@@ -9,6 +9,7 @@ class Vehicles {
     makeObservable(this, {
       models: observable,
       makers: observable,
+      sortedByMaker: observable,
       fetchVehicles: action,
       fetchMakers: action
     })
