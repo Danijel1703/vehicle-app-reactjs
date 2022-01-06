@@ -12,7 +12,7 @@ const Navbar = () => {
                 <NavLink to='/' activeclassname='active'><li>Home</li></NavLink>
                 <NavLink to='/vehicles' activeclassname='active'><li>Vehicles</li></NavLink>
                 <NavLink to='/contact' activeclassname='active'><li>Contact</li></NavLink>
-                <NavLink to='/manufacturers' activeclassname='active'><li>Manufacturers</li></NavLink>
+                <NavLink to='/manufacturers' activeclassname='active'><li>Manufacturers</li></NavLink> {/* TODO dodati manufacturers i all vehicles u dropdown ispod vehicles */}
             </ul>
             <Hamburger toggle={setOpen} toggled={isOpen} direction='left' color='white' size={45} />
         </nav>

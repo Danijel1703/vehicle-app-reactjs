@@ -1,4 +1,4 @@
-import { makeObservable, action, observable, autorun, runInAction } from 'mobx'
+import { makeObservable, action, observable, autorun, runInAction, toJS } from 'mobx'
 import API from '../Common/API'
 
 class Vehicles {
@@ -6,14 +6,19 @@ class Vehicles {
     this.models = [] // svi proizvođači
     this.makers = [] // svi modeli
     this.sortedByMaker = [] // array sa objektima u kojima su svakom proizvođaču dodijeljeni njihovi modeli
+    this.numberOfPages = null
     makeObservable(this, {
       models: observable,
       makers: observable,
+      sortedByMaker: observable,
+      numberOfPages: observable,
       fetchAllVehicles: action,
       fetchAllMakers: action,
-      fetchMakerVehicles: action
+      fetchMakerVehicles: action,
+      fetchNumberOfPages: action
     })
     autorun(() => {
+      this.fetchNumberOfPages()
       this.fetchAllMakers()
       this.fetchAllVehicles()
     })
@@ -23,22 +28,31 @@ class Vehicles {
     const makers = await API.getAllMakers()
     runInAction(() => {
       this.makers = makers
-      this.makers.map((maker) => {
-        return this.fetchMakerVehicles(maker.id, maker.name)
+      this.makers.forEach((maker) => {
+        return this.fetchMakerVehicles(maker.id, maker.name, 2)
       })
     })
   }
 
   async fetchAllVehicles () {
-    const models = await API.getAllVehicles() // Ovaj action trenutačno i nije toliko bitan, možda bude trebao u budućnosti
+    const models = await API.getAllVehicles() // Ovaj action trenutačno i nije bitan, možda bude trebao u budućnosti
     runInAction(() => {
       this.models = models
     })
   }
 
+  async fetchNumberOfPages () {
+    const numberOfPages = await API.getNumberOfPages()
+    runInAction(() => {
+      this.numberOfPages = numberOfPages
+    })
+    console.log(this.numberOfPages)
+  }
+
   async fetchMakerVehicles (id, maker) {
     const makerVehicles = await API.getMakerVehicles(id)
     this.sortedByMaker.push({ maker, makerVehicles })
+    console.log(toJS(this.sortedByMaker))
   }
 }
 

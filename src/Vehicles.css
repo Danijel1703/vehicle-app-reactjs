@@ -1,15 +1,16 @@
 .vehicles {
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    grid-template-rows: 25% 25% 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
-.item-a {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 3;
+.car-list {
+    display: flex;
+    justify-content: space-evenly;
 }
 
-.item-b {
+.slide-right {
+}
+
+.slide-left {
+
 }

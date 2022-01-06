@@ -6,9 +6,13 @@ import '../Vehicles.css'
 const Vehicles = observer(({ VehicleStore }) => {
   return (
     <div className='vehicles'>
-      <div className='item-a' style={{ backgroundColor: 'green' }}>1</div>
-      <div className='item-b' style={{ backgroundColor: 'blue' }}>2</div>
-      <div className='item-c' style={{ backgroundColor: 'red' }}>3</div>
+      <div className='car-list'>
+        <button className='slide-right'>Slide right</button>
+        <div className='car-list-card'>
+          Audi A4
+        </div>
+        <button className='slide-left'>Slide left</button>
+      </div>
     </div>
   )
 })

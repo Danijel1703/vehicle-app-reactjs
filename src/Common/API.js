@@ -22,10 +22,25 @@ module.exports.getAllVehicles = async () => {
   }
 }
 
-module.exports.getMakerVehicles = async (id) => {
+module.exports.getMakerVehicles = async (id, page = 2) => {
   try {
-    const response = await axios.get(`${baseUrl}/resources/VehicleModel?searchQuery=WHERE makeId='${id}'`)
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel?searchQuery=WHERE makeId='${id}'&page=${page}&rpp=10`)
     return response.data.item
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.getNumberOfPages = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel/`)
+    const totalRecords = response.data.totalRecords
+    const reminder = totalRecords % 10 // %10 je tu zato sto imamo 10 vozila po stranici
+    let numberOfPages = 0
+    if (reminder > 0) {
+      numberOfPages = Math.floor(totalRecords / 10) + 1
+    }
+    return numberOfPages
   } catch (error) {
     console.error(error)
   }
