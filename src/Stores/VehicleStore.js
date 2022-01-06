@@ -1,58 +1,66 @@
+// eslint-disable-next-line no-unused-vars
 import { makeObservable, action, observable, autorun, runInAction, toJS } from 'mobx'
 import API from '../Common/API'
+import Helpers from '../Common/Helpers' // obicne helper funckije, kako Store nebi bio zatrpan kodovima kao sortiranje arrayjeva il slicno
 
 class Vehicles {
   constructor () {
-    this.models = [] // svi proizvođači
-    this.makers = [] // svi modeli
-    this.sortedByMaker = [] // array sa objektima u kojima su svakom proizvođaču dodijeljeni njihovi modeli
-    this.numberOfPages = null
+    this.totalMakers = null // ukupni broj proizvođaća u bazi, query se mora proci kroz sve stranice ukoliko ima vise od 10 proizvodaca
+    this.totalModels = null // ukupni broj modela u bazi, služi nam za računanje broja stranica
+    this.pagesMakers = null // broj stranica proizvodaca na backendu
+    this.pagesModels = null // broj stranica modela na backendu
+    this.currentPageModels = null // modeli sa trenutno odabrane stranice na frontend
+    this.allModels = null // svi modeli
     makeObservable(this, {
-      models: observable,
-      makers: observable,
-      sortedByMaker: observable,
-      numberOfPages: observable,
-      fetchAllVehicles: action,
-      fetchAllMakers: action,
-      fetchMakerVehicles: action,
-      fetchNumberOfPages: action
+      totalMakers: observable,
+      totalModels: observable,
+      pagesMakers: observable,
+      pagesModels: observable,
+      currentPageModels: observable,
+      fetchNumberOfMakers: action,
+      fetchNumberOfModels: action,
+      fetchCurrentPageModels: action,
+      fetchAllModels: action
     })
     autorun(() => {
-      this.fetchNumberOfPages()
-      this.fetchAllMakers()
-      this.fetchAllVehicles()
+      this.fetchNumberOfMakers()
+      this.fetchNumberOfModels()
+      this.fetchCurrentPageModels()
+      this.fetchAllModels()
     })
   }
 
-  async fetchAllMakers () {
-    const makers = await API.getAllMakers()
+  async fetchNumberOfMakers () {
+    const numberOfMakers = await API.getNumberOfMakers()
     runInAction(() => {
-      this.makers = makers
-      this.makers.forEach((maker) => {
-        return this.fetchMakerVehicles(maker.id, maker.name, 2)
-      })
+      this.numberOfMakers = numberOfMakers
+      const pagesMakers = Helpers.getNumberOfPages(this.numberOfMakers)
+      this.pagesMakers = Helpers.toArray(pagesMakers)
     })
   }
 
-  async fetchAllVehicles () {
-    const models = await API.getAllVehicles() // Ovaj action trenutačno i nije bitan, možda bude trebao u budućnosti
+  async fetchNumberOfModels () {
+    const numberOfModels = await API.getNumberOfModels()
+    runInAction(async () => {
+      this.numberOfModels = numberOfModels
+      const pagesModels = Helpers.getNumberOfPages(this.numberOfModels)
+      this.pagesModels = Helpers.toArray(pagesModels)
+      this.fetchAllModels(this.pagesModels)
+    })
+  }
+
+  async fetchCurrentPageModels (currentPage = 1) {
+    const currentPageModels = await API.getCurrentPageModels(currentPage)
     runInAction(() => {
-      this.models = models
+      this.currentPageModels = currentPageModels
     })
   }
 
-  async fetchNumberOfPages () {
-    const numberOfPages = await API.getNumberOfPages()
+  async fetchAllModels (numberOfPages = [1]) {
+    const allModels = await API.getAllVehicles(numberOfPages)
     runInAction(() => {
-      this.numberOfPages = numberOfPages
+      this.allModels = allModels
     })
-    console.log(this.numberOfPages)
-  }
-
-  async fetchMakerVehicles (id, maker) {
-    const makerVehicles = await API.getMakerVehicles(id)
-    this.sortedByMaker.push({ maker, makerVehicles })
-    console.log(toJS(this.sortedByMaker))
   }
 }
 

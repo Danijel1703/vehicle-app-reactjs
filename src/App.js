@@ -5,9 +5,10 @@ import {
   Route
 } from 'react-router-dom'
 import Home from './Pages/Home'
-import Vehicles from './Pages/Vehicles'
+import GeneralVehicles from './Pages/GeneralVehicles'
 import AddNewVehicles from './Pages/AddNewVehicles'
 import VehicleStore from './Stores/VehicleStore'
+import AllVehicles from './Pages/AllVehicles'
 
 // eslint-disable-next-line react/prop-types
 function App () {
@@ -16,7 +17,8 @@ function App () {
       <Layout>
         <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/vehicles' element={<Vehicles VehicleStore={VehicleStore} />} />
+            <Route path='/vehicles' element={<GeneralVehicles VehicleStore={VehicleStore} />} />
+            <Route path='/allVehicles' element={<AllVehicles VehicleStore={VehicleStore} />} />
             <Route path='/addNew' element={<AddNewVehicles />} /> {/* Komponenta u izradi */}
         </Routes>
       </Layout>
