@@ -1,4 +1,5 @@
-// Započeta komponenta, doraditi poslije
+// Započeta komponenta, doraditi poslije ukoliko je potrebno napraviti dodavanje
+// vozila putem neke forme
 
 const AddNewVehicles = () => {
   return (

@@ -1,3 +1,6 @@
+// backend koji koristi axios library za slanje CRUD requestova
+// svi requestvoi su napravljeni da se mogu pozvati ko obične funkcije u drugim komponentama
+
 const axios = require('axios').default
 const baseUrl = 'https://api.baasic.com/beta/vehicle-app-reactjs'
 
@@ -21,7 +24,6 @@ module.exports.getAllVehicles = async () => {
 
 module.exports.getMakerVehicles = async (id) => {
   try {
-    console.log(id)
     const response = await axios.get(`${baseUrl}/resources/VehicleModel?searchQuery=WHERE makeId='${id}'`)
     return response.data.item
   } catch (error) {

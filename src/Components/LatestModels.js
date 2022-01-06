@@ -2,6 +2,8 @@ import AudiA4 from '../audi-a4.png'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
 import '../LatestModels.css'
 
+// Ova cijela komponenta je i dalje u izradi za neku buducnost kada se modeli
+// modeli budu sortirali po datumu
 const LatestModels = () => {
   const scroll = (direction) => {
     const element = document.getElementById('latest-models-list')
