@@ -3,49 +3,42 @@ import API from '../Common/API'
 
 class Vehicles {
   constructor () {
-    this.models = null
-    this.makers = null
+    this.models = []
+    this.makers = []
     this.sortedByMaker = []
     makeObservable(this, {
       models: observable,
       makers: observable,
-      sortedByMaker: observable,
-      fetchVehicles: action,
-      fetchMakers: action
+      fetchAllVehicles: action,
+      fetchAllMakers: action,
+      fetchMakerVehicles: action
     })
     autorun(() => {
-      this.fetchMakers()
-      this.fetchVehicles()
+      this.fetchAllMakers()
+      this.fetchAllVehicles()
     })
   }
 
-  async fetchMakers () {
+  async fetchAllMakers () {
     const makers = await API.getAllMakers()
     runInAction(() => {
       this.makers = makers
+      this.makers.map((maker) => {
+        return this.fetchMakerVehicles(maker.id, maker.name)
+      })
     })
   }
 
-  async fetchVehicles () {
+  async fetchAllVehicles () {
     const models = await API.getAllVehicles()
     runInAction(() => {
       this.models = models
-      this.sortByMaker()
     })
   }
 
-  sortByMaker () {
-    const sorted = []
-    this.makers?.forEach((maker) => {
-      const models = []
-      this.models?.forEach((model) => {
-        if (model.makeId === maker.id) {
-          models.push(model)
-        }
-      })
-      sorted.push({ maker, models })
-    })
-    this.sortedByMaker = sorted
+  async fetchMakerVehicles (id, maker) {
+    const makerVehicles = await API.getMakerVehicles(id)
+    this.sortedByMaker.push({ maker, makerVehicles })
   }
 }
 

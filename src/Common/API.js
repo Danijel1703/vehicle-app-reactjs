@@ -18,3 +18,13 @@ module.exports.getAllVehicles = async () => {
     console.error(error)
   }
 }
+
+module.exports.getMakerVehicles = async (id) => {
+  try {
+    console.log(id)
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel?searchQuery=WHERE makeId='${id}'`)
+    return response.data.item
+  } catch (error) {
+    console.error(error)
+  }
+}
