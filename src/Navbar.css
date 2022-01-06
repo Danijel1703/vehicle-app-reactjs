@@ -5,14 +5,14 @@
     z-index: 10;
 }
 
-.navbar-content {
-    width: 50%;
+.navbar-content {               /* Ovo je ul lista sa linkovima na stranice */          
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
     list-style-type: none;
     background-color: black;
     color: white;
+    width: 50%;
     margin: 0;
     padding-right: 3rem;
 }
@@ -27,11 +27,11 @@
 .navbar-content > a > li {
     display: flex;
     justify-content: center;
+    cursor: pointer;
     padding-top: 1rem;
     padding-bottom: 1rem;
     border-top: 5px solid black;
     border-bottom: 5px solid black;
-    cursor: pointer;
 }
 
 .navbar-content > a > li:hover {
@@ -43,7 +43,7 @@
     border-bottom-color: white;
 }
 
-.hamburger-react {
+.hamburger-react { /* Hamburger ikonica na mobile screenu */
     display: none;
 }
 
@@ -55,8 +55,8 @@
 
     .navbar {
         position: sticky;
-        top: 0;
         align-items: center;
+        top: 0;
         height: 10vh;
     }
 
@@ -94,7 +94,12 @@
         border-color: black;
     }
 
-    .hide {
+    .hamburger-react {
+        display: flex;
+        margin-right: 1rem;
+    }
+
+    .hide {  /* Obična klasa za skrivanje liste ako hamburger nije stisnut */
         display: none;
     }
 }

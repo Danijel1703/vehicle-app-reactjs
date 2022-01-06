@@ -1,13 +1,15 @@
 .vehicles {
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 25% 25% 1fr 1fr;
 }
 
-.vehicles > * >  img {
-    max-width: 100%;
+.item-a {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
 }
 
-.car-card-img {
-    width: 100%;
-    object-fit: cover;
+.item-b {
 }

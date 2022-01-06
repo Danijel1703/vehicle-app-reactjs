@@ -3,9 +3,9 @@ import API from '../Common/API'
 
 class Vehicles {
   constructor () {
-    this.models = []
-    this.makers = []
-    this.sortedByMaker = []
+    this.models = [] // svi proizvođači
+    this.makers = [] // svi modeli
+    this.sortedByMaker = [] // array sa objektima u kojima su svakom proizvođaču dodijeljeni njihovi modeli
     makeObservable(this, {
       models: observable,
       makers: observable,
@@ -30,7 +30,7 @@ class Vehicles {
   }
 
   async fetchAllVehicles () {
-    const models = await API.getAllVehicles()
+    const models = await API.getAllVehicles() // Ovaj action trenutačno i nije toliko bitan, možda bude trebao u budućnosti
     runInAction(() => {
       this.models = models
     })
