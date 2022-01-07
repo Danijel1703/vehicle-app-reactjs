@@ -9,9 +9,27 @@ module.exports.getAllVehicles = async (numberOfPages = [1]) => {
     const allModels = []
     numberOfPages?.map(async (pageNumber) => {
       const response = await axios.get(`${baseUrl}/resources/VehicleModel?page=${pageNumber}&rpp=10`)
-      allModels.push({ page: pageNumber, models: response.data.item })
+      response.data.item.map((model) => {
+        return allModels.push(model)
+      })
     })
+    console.log(allModels)
     return allModels
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.getAllMakers = async (numberOfPages = [1]) => {
+  try {
+    const allMakers = []
+    numberOfPages?.map(async (pageNumber) => {
+      const response = await axios.get(`${baseUrl}/resources/VehicleMake?page=${pageNumber}&rpp=10`)
+      response.data.item.map((maker) => {
+        return allMakers.push(maker)
+      })
+    })
+    return allMakers
   } catch (error) {
     console.error(error)
   }
@@ -48,6 +66,40 @@ module.exports.getModelById = async (id) => {
   try {
     const response = await axios.get(`${baseUrl}/resources/VehicleModel/${id}`)
     return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.updateSelectedModel = async (id, name) => {
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const response = await axios.patch(`${baseUrl}/resources/VehicleModel/${id}`, { name })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.deleteSelectedModel = async (id) => {
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const response = await axios.delete(`${baseUrl}/resources/VehicleModel/${id}`)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.addNewModel = async ({ makerId, model, abrv }) => {
+  try {
+    console.log(makerId, model, abrv)
+    const body = {
+      makeId: makerId,
+      name: model,
+      abrv
+    }
+    console.log(JSON.stringify(body))
+    const response = await axios.post(`${baseUrl}/resources/VehicleModel/`, body)
+    console.log(response)
   } catch (error) {
     console.error(error)
   }

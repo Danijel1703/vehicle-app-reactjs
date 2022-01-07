@@ -1,4 +1,5 @@
 // eslint-disable-next-line no-unused-vars
+import { upload } from '@testing-library/user-event/dist/upload'
 import { makeObservable, action, observable, autorun, runInAction, toJS } from 'mobx'
 import API from '../Common/API'
 import Helpers from '../Common/Helpers' // obicne helper funckije, kako Store nebi bio zatrpan kodovima kao sortiranje arrayjeva il slicno
@@ -12,6 +13,7 @@ class Vehicles {
     this.currentPageModels = null // modeli sa trenutno odabrane stranice na frontend
     this.allModels = null // svi modeli
     this.selectedModel = null
+    this.allMakers = null
     makeObservable(this, {
       totalMakers: observable,
       totalModels: observable,
@@ -23,7 +25,8 @@ class Vehicles {
       fetchNumberOfModels: action,
       fetchCurrentPageModels: action,
       fetchAllModels: action,
-      fetchModelById: action
+      fetchModelById: action,
+      fetchAllMakers: action
     })
     autorun(() => {
       this.fetchNumberOfMakers()
@@ -39,6 +42,7 @@ class Vehicles {
       this.numberOfMakers = numberOfMakers
       const pagesMakers = Helpers.getNumberOfPages(this.numberOfMakers)
       this.pagesMakers = Helpers.toArray(pagesMakers)
+      this.fetchAllMakers(this.pagesMakers)
     })
   }
 
@@ -66,11 +70,33 @@ class Vehicles {
     })
   }
 
+  async fetchAllMakers (numberOfPages = [1]) {
+    const allMakers = await API.getAllMakers(numberOfPages)
+    runInAction(() => {
+      this.allMakers = allMakers
+    })
+  }
+
   async fetchModelById (id) {
     const selectedModel = await API.getModelById(id)
     runInAction(() => {
       this.selectedModel = selectedModel
     })
+  }
+
+  async updateSelectedModel (id, name) {
+    const updateModel = await API.updateSelectedModel(id, name)
+    console.log(toJS(updateModel))
+  }
+
+  async deleteSelectedModel (id) {
+    const deleteModel = await API.deleteSelectedModel(id)
+    console.log(toJS(deleteModel))
+  }
+
+  async addNewModel ({ makerId, model, abrv }) {
+    const addModel = await API.addNewModel({ makerId, model, abrv })
+    console.log(toJS(addModel))
   }
 }
 

@@ -18,8 +18,8 @@ function App () {
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/vehicles' element={<Vehicles VehicleStore={VehicleStore} />} />
-            <Route path='/addNew' element={<AddNewVehicles />} /> {/* Komponenta u izradi */}
-            <Route path='/VehicleInfo/:id' element={<VehicleInfo />}/>
+            <Route path='/addNew' element={<AddNewVehicles VehicleStore={VehicleStore} />} />
+            <Route path='/VehicleInfo/:id' element={<VehicleInfo VehicleStore={VehicleStore} />}/>
         </Routes>
       </Layout>
     </>
