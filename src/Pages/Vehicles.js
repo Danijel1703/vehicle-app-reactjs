@@ -1,14 +1,12 @@
-// import { toJS } from 'mobx'
 import { observer } from 'mobx-react'
+import { Link } from 'react-router-dom'
 import { useState } from 'react/cjs/react.development'
-import '../AllVehicles.css'
+import '../Vehicles.css'
 
-const AllVehicles = observer(({ VehicleStore }) => {
+const Vehicles = observer(({ VehicleStore }) => {
   const numberOfPages = VehicleStore.pagesModels
   const [currentPage, setCurrentPage] = useState(1)
   const currentPageModels = VehicleStore.currentPageModels
-  const selectedModel = VehicleStore.selectedModel
-  console.log(selectedModel)
   // const allModels = VehicleStore.allModels
 
   return (
@@ -16,9 +14,11 @@ const AllVehicles = observer(({ VehicleStore }) => {
           <div className='car-cards-container'>
             {
               currentPageModels?.map((model) => {
-                return <button
-                onClick={() => { VehicleStore.fetchModelById(model.id) }}
-                key={model.id}>{model.name}</button>
+                return (
+                  <Link to={`/VehicleInfo/${model.id}`} key={model.id}>
+                    <button>{model.name}</button>
+                  </Link>
+                )
               })
             }
           </div>
@@ -26,12 +26,14 @@ const AllVehicles = observer(({ VehicleStore }) => {
             <ul>
               {
                 numberOfPages?.map((pageNumber) => {
-                  return <li
+                  return (
+                    <li
                     className={currentPage === pageNumber ? 'active' : ''}
                      key={pageNumber} onClick={() => {
                        setCurrentPage(pageNumber)
                        VehicleStore.fetchCurrentPageModels(pageNumber)
                      }}>{pageNumber}</li>
+                  )
                 })
               }
             </ul>
@@ -40,4 +42,4 @@ const AllVehicles = observer(({ VehicleStore }) => {
   )
 })
 
-export default AllVehicles
+export default Vehicles
