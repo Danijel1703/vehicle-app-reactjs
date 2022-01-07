@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // import { toJS } from 'mobx'
 import { observer } from 'mobx-react'
-import '../Vehicles.css'
+import '../GeneralVehicles.css'
 
 const Vehicles = observer(({ VehicleStore }) => {
   return (

@@ -43,3 +43,12 @@ module.exports.getNumberOfModels = async () => {
     console.error(error)
   }
 }
+
+module.exports.getModelById = async (id) => {
+  try {
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel/${id}`)
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}

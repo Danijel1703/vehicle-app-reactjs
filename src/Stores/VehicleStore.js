@@ -11,16 +11,19 @@ class Vehicles {
     this.pagesModels = null // broj stranica modela na backendu
     this.currentPageModels = null // modeli sa trenutno odabrane stranice na frontend
     this.allModels = null // svi modeli
+    this.selectedModel = null
     makeObservable(this, {
       totalMakers: observable,
       totalModels: observable,
       pagesMakers: observable,
       pagesModels: observable,
+      selectedModel: observable,
       currentPageModels: observable,
       fetchNumberOfMakers: action,
       fetchNumberOfModels: action,
       fetchCurrentPageModels: action,
-      fetchAllModels: action
+      fetchAllModels: action,
+      fetchModelById: action
     })
     autorun(() => {
       this.fetchNumberOfMakers()
@@ -60,6 +63,13 @@ class Vehicles {
     const allModels = await API.getAllVehicles(numberOfPages)
     runInAction(() => {
       this.allModels = allModels
+    })
+  }
+
+  async fetchModelById (id) {
+    const selectedModel = await API.getModelById(id)
+    runInAction(() => {
+      this.selectedModel = selectedModel
     })
   }
 }

@@ -26,6 +26,7 @@
 .page-select > ul > li:hover {
     background-color: black;
     color: white;
+    cursor: pointer;
     transition: 0.3s;
 }
 

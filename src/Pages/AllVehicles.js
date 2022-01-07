@@ -7,6 +7,8 @@ const AllVehicles = observer(({ VehicleStore }) => {
   const numberOfPages = VehicleStore.pagesModels
   const [currentPage, setCurrentPage] = useState(1)
   const currentPageModels = VehicleStore.currentPageModels
+  const selectedModel = VehicleStore.selectedModel
+  console.log(selectedModel)
   // const allModels = VehicleStore.allModels
 
   return (
@@ -14,7 +16,9 @@ const AllVehicles = observer(({ VehicleStore }) => {
           <div className='car-cards-container'>
             {
               currentPageModels?.map((model) => {
-                return <h1 key={model.id}>{model.name}</h1>
+                return <button
+                onClick={() => { VehicleStore.fetchModelById(model.id) }}
+                key={model.id}>{model.name}</button>
               })
             }
           </div>
