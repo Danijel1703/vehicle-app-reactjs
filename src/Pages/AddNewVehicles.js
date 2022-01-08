@@ -1,8 +1,7 @@
-import { observer } from 'mobx-react'
 import { useEffect, useState } from 'react/cjs/react.development'
 import API from '../Common/API'
 
-const AddNewVehicles = observer(({ VehicleStore }) => {
+const AddNewVehicles = () => {
   const [makers, setMakers] = useState([])
   const [selectedMaker, setSelectedMaker] = useState('')
   const [name, setName] = useState('')
@@ -21,8 +20,6 @@ const AddNewVehicles = observer(({ VehicleStore }) => {
     return await API.addNewModel({ makerId, model, abrv })
   }
 
-  console.log(selectedMaker, name, abrv)
-
   return (
     <div>
       {
@@ -40,6 +37,6 @@ const AddNewVehicles = observer(({ VehicleStore }) => {
       <button onClick={() => { addNewModel(selectedMaker, name, abrv) }}>Insert</button>
     </div>
   )
-})
+}
 
 export default AddNewVehicles

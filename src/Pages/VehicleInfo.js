@@ -1,10 +1,9 @@
-import { observer } from 'mobx-react-lite'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react/cjs/react.development'
 import API from '../Common/API'
 
-const VehicleInfo = observer(({ VehicleStore }) => {
+const VehicleInfo = () => {
   const { id } = useParams()
   const [selectedModel, setSelectedModel] = useState({})
   const [name, setName] = useState('test')
@@ -29,6 +28,6 @@ const VehicleInfo = observer(({ VehicleStore }) => {
             <button onClick={() => deleteSelectedModel(id)}>Delete</button>
         </div>
   )
-})
+}
 
 export default VehicleInfo

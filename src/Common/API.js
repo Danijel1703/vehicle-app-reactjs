@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // backend koji koristi axios library za slanje CRUD requestova
 // svi requestvoi su napravljeni da se mogu pozvati ko obične funkcije u drugim komponentama
 
@@ -22,10 +23,9 @@ module.exports.getAllMakers = async (numberOfMakers) => {
   }
 }
 
-module.exports.getCurrentPageModels = async (currentPage) => {
+module.exports.getCurrentPageModels = async (currentPage, sort) => {
   try {
-    const response = await axios.get(`${baseUrl}/resources/VehicleModel?page=${currentPage}&rpp=10`)
-    console.log(response.data.item)
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel?page=${currentPage}&rpp=10&sort=${sort}`)
     return response.data.item
   } catch (error) {
     console.error(error)
@@ -79,14 +79,21 @@ module.exports.deleteSelectedModel = async (id) => {
 
 module.exports.addNewModel = async ({ makerId, model, abrv }) => {
   try {
-    console.log(makerId, model, abrv)
     const body = {
       makeId: makerId,
       name: model,
       abrv
     }
     const response = await axios.post(`${baseUrl}/resources/VehicleModel/`, body)
-    console.log(response)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.getSearchInputModel = async (input) => {
+  try {
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel?searchQuery=WHERE name='${input}'`)
+    return response.data.item[0]
   } catch (error) {
     console.error(error)
   }

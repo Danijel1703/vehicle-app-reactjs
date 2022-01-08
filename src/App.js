@@ -7,14 +7,12 @@ import {
 } from 'react-router-dom'
 import Home from './Pages/Home'
 import AddNewVehicles from './Pages/AddNewVehicles'
-import VehicleStore from './Stores/VehicleStore'
 import Vehicles from './Pages/Vehicles'
 import VehicleInfo from './Pages/VehicleInfo'
-import { observer } from 'mobx-react'
 import { useEffect } from 'react/cjs/react.development'
 import API from './Common/API'
 
-const App = observer(() => {
+const App = () => {
   useEffect(async () => {
     const numberOfModels = await API.getNumberOfModels()
     const allModels = await API.getAllVehicles(numberOfModels)
@@ -26,13 +24,13 @@ const App = observer(() => {
       <Layout>
         <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/vehicles' element={<Vehicles VehicleStore={VehicleStore} />} />
-            <Route path='/addNew' element={<AddNewVehicles VehicleStore={VehicleStore} />} />
-            <Route path='/VehicleInfo/:id' element={<VehicleInfo VehicleStore={VehicleStore} />}/>
+            <Route path='/vehicles' element={<Vehicles />} />
+            <Route path='/addNew' element={<AddNewVehicles />} />
+            <Route path='/VehicleInfo/:id' element={<VehicleInfo />}/>
         </Routes>
       </Layout>
     </>
   )
-})
+}
 
 export default App

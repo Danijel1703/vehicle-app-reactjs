@@ -3,6 +3,7 @@
     justify-content: flex-end;
     background-color: black;
     z-index: 10;
+    box-shadow: 0 16px 20px 0 rgba(0, 0, 0, 0.424);
 }
 
 .navbar-content {               /* Ovo je ul lista sa linkovima na stranice */          
