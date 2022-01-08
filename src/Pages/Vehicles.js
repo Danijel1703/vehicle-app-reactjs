@@ -1,13 +1,28 @@
 import { observer } from 'mobx-react'
-import { Link } from 'react-router-dom'
-import { useState } from 'react/cjs/react.development'
+import { useEffect, useState } from 'react/cjs/react.development'
 import '../Vehicles.css'
+import API from '../Common/API'
+import { Link } from 'react-router-dom'
+import Helpers from '../Common/Helpers'
 
 const Vehicles = observer(({ VehicleStore }) => {
-  const numberOfPages = VehicleStore.pagesModels
+  const [numberOfPages, setNumberOfPages] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const currentPageModels = VehicleStore.currentPageModels
-  // const allModels = VehicleStore.allModels
+  const [currentPageModels, setCurrentPageModels] = useState(null)
+
+  const fetchNumberOfPages = async () => {
+    const numberOfModels = await API.getNumberOfModels()
+    setNumberOfPages(Helpers.toArray(Helpers.getNumberOfPages(numberOfModels)))
+  }
+  const fetchCurrentPageModels = async (page = 1) => {
+    const models = await API.getCurrentPageModels(page)
+    setCurrentPageModels(models)
+  }
+
+  useEffect(() => {
+    fetchNumberOfPages()
+    fetchCurrentPageModels()
+  }, [])
 
   return (
         <div className='all-vehicles'>
@@ -30,8 +45,8 @@ const Vehicles = observer(({ VehicleStore }) => {
                     <li
                     className={currentPage === pageNumber ? 'active' : ''}
                      key={pageNumber} onClick={() => {
+                       fetchCurrentPageModels(pageNumber)
                        setCurrentPage(pageNumber)
-                       VehicleStore.fetchCurrentPageModels(pageNumber)
                      }}>{pageNumber}</li>
                   )
                 })

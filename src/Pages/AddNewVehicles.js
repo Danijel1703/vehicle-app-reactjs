@@ -1,47 +1,43 @@
 import { observer } from 'mobx-react'
 import { useEffect, useState } from 'react/cjs/react.development'
+import API from '../Common/API'
 
 const AddNewVehicles = observer(({ VehicleStore }) => {
-  const [makerId, setMakerId] = useState('')
-  const [model, setModel] = useState('')
-  const [abrv, setAbrv] = useState('')
   const [makers, setMakers] = useState([])
-  useEffect(async () => {
-    await VehicleStore.fetchAllMakers()
+  const [selectedMaker, setSelectedMaker] = useState('')
+  const [name, setName] = useState('')
+  const [abrv, setAbrv] = useState('')
+
+  useEffect(() => {
+    fetchAllMakers()
   }, [])
-  console.log(makers)
+
+  const fetchAllMakers = async () => {
+    const numberOfMakers = await API.getNumberOfMakers()
+    setMakers(await API.getAllMakers(numberOfMakers))
+  }
+  const addNewModel = async (makerId, model, abrv) => {
+    console.log(makerId, model, abrv)
+    return await API.addNewModel({ makerId, model, abrv })
+  }
+
+  console.log(selectedMaker, name, abrv)
+
   return (
     <div>
-      model
-      <input type='text' onInput={e => setModel(e.target.value)}/>
-      abrv
-      <input type='text' onInput={e => setAbrv(e.target.value)}/>
-      <button onClick={() => {
-        setMakers(VehicleStore.allMakers)
-      }}>
-        Select maker
-      </button>
       {
-        makers?.map((maker) => {
+        makers.map((maker) => {
           return (
-            <div key={maker.id}
-            >
-              <button
-                onClick={() => {
-                  setMakerId(maker.id)
-                }}>
-                {maker.name}
-              </button>
+            <div key={maker.id}>
+                <button onClick={() => { setSelectedMaker(maker.id) }}>{maker.name}</button>
             </div>
           )
         })
       }
-      <button onClick={() => {
-        VehicleStore.addNewModel({ makerId, model, abrv })
-        console.log(makerId, abrv, model)
-      }}>
-        Add new
-      </button>
+      <input type='text' onInput={e => setName(e.target.value) } />
+      <br/>
+      <input type='text' onInput={e => setAbrv(e.target.value) } />
+      <button onClick={() => { addNewModel(selectedMaker, name, abrv) }}>Insert</button>
     </div>
   )
 })

@@ -4,32 +4,19 @@
 const axios = require('axios').default
 const baseUrl = 'https://api.baasic.com/beta/vehicle-app-reactjs'
 
-module.exports.getAllVehicles = async (numberOfPages = [1]) => {
+module.exports.getAllVehicles = async (numberOfModels) => {
   try {
-    const allModels = []
-    numberOfPages?.map(async (pageNumber) => {
-      const response = await axios.get(`${baseUrl}/resources/VehicleModel?page=${pageNumber}&rpp=10`)
-      response.data.item.map((model) => {
-        return allModels.push(model)
-      })
-    })
-    console.log(allModels)
-    return allModels
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel?rpp=${numberOfModels}`)
+    return response.data.item
   } catch (error) {
     console.error(error)
   }
 }
 
-module.exports.getAllMakers = async (numberOfPages = [1]) => {
+module.exports.getAllMakers = async (numberOfMakers) => {
   try {
-    const allMakers = []
-    numberOfPages?.map(async (pageNumber) => {
-      const response = await axios.get(`${baseUrl}/resources/VehicleMake?page=${pageNumber}&rpp=10`)
-      response.data.item.map((maker) => {
-        return allMakers.push(maker)
-      })
-    })
-    return allMakers
+    const response = await axios.get(`${baseUrl}/resources/VehicleMake?rpp=${numberOfMakers}`)
+    return response.data.item
   } catch (error) {
     console.error(error)
   }
@@ -38,6 +25,7 @@ module.exports.getAllMakers = async (numberOfPages = [1]) => {
 module.exports.getCurrentPageModels = async (currentPage) => {
   try {
     const response = await axios.get(`${baseUrl}/resources/VehicleModel?page=${currentPage}&rpp=10`)
+    console.log(response.data.item)
     return response.data.item
   } catch (error) {
     console.error(error)
@@ -97,7 +85,6 @@ module.exports.addNewModel = async ({ makerId, model, abrv }) => {
       name: model,
       abrv
     }
-    console.log(JSON.stringify(body))
     const response = await axios.post(`${baseUrl}/resources/VehicleModel/`, body)
     console.log(response)
   } catch (error) {
