@@ -7,26 +7,27 @@ import { Link } from 'react-router-dom'
 const Vehicles = () => {
   const [numberOfPages, setNumberOfPages] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [currentPageModels, setCurrentPageModels] = useState(null)
   const [searchedModel, setModelSearchedModel] = useState(null)
+  const [allModels, setAllModels] = useState([])
+  const [currentPageModels, setCurrentPageModels] = useState([])
 
-  const fetchNumberOfPages = async () => {
+  const fetchAllModels = async (sort = 'name') => {
     const numberOfModels = await API.getNumberOfModels()
     setNumberOfPages(Helpers.toArray(Helpers.getNumberOfPages(numberOfModels)))
+    const models = await API.getAllVehicles(numberOfModels, sort)
+    models.forEach((model) => {
+      model.page = Math.floor(models.indexOf(model) / 10) + 1
+    })
+    setAllModels(models)
+    setCurrentPageModels(models.filter(model => model.page === currentPage))
   }
-  const fetchCurrentPageModels = async (page = 1, sort = 'name') => {
-    const models = await API.getCurrentPageModels(page, sort)
-    setCurrentPageModels(models)
-  }
-
   const fetchSearchInputModel = async (input) => {
     const model = await API.getSearchInputModel(input)
     setModelSearchedModel(model)
   }
 
   useEffect(() => {
-    fetchNumberOfPages()
-    fetchCurrentPageModels()
+    fetchAllModels()
   }, [])
 
   const sortOptions = (
@@ -34,9 +35,9 @@ const Vehicles = () => {
       Maker:
       <input type='checkbox' onChange={ e => {
         if (e.target.checked) {
-          fetchCurrentPageModels(currentPage, 'makeId')
+          fetchAllModels('makeId')
         } else {
-          fetchCurrentPageModels(currentPage, 'name')
+          fetchAllModels('name')
         }
       }} />
     </label>
@@ -47,15 +48,15 @@ const Vehicles = () => {
     }} />
   )
   const displayModels = currentPageModels?.map((model) => (
-    <Link key={model.id} to={`/vehicleInfo/${model.id}`}><button>{model.name}</button></Link>
+        <Link key={model.id} to={`/vehicleInfo/${model.id}`}><button>{model.name}</button></Link>
   ))
   const displayPageNavigation = numberOfPages?.map((pageNumber) => (
         <li
         key={pageNumber}
         className={currentPage === pageNumber ? 'active' : ''}
         onClick={() => {
-          fetchCurrentPageModels(pageNumber)
           setCurrentPage(pageNumber)
+          setCurrentPageModels(allModels.filter(model => model.page === pageNumber))
         }}>
             {pageNumber}
         </li>
@@ -63,6 +64,8 @@ const Vehicles = () => {
   const displaySearchedItems = (
     <h1>{searchedModel?.name}</h1>
   )
+
+  console.log(currentPageModels, allModels, currentPage)
 
   return (
         <div className='all-vehicles'>

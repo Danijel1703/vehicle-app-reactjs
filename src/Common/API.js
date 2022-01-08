@@ -5,9 +5,9 @@
 const axios = require('axios').default
 const baseUrl = 'https://api.baasic.com/beta/vehicle-app-reactjs'
 
-module.exports.getAllVehicles = async (numberOfModels) => {
+module.exports.getAllVehicles = async (numberOfModels, sort) => {
   try {
-    const response = await axios.get(`${baseUrl}/resources/VehicleModel?rpp=${numberOfModels}`)
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel?rpp=${numberOfModels}&sort=${sort}`)
     return response.data.item
   } catch (error) {
     console.error(error)
