@@ -31,12 +31,18 @@ const Vehicles = observer(({ store }) => {
   }, [])
 
   const searchBar = (
-    <input type='text' onInput={e => {
+    <input type='text' placeholder='Search models...' onInput={e => {
       fetchSearchInputModel(e.target.value)
     }} />
   )
   const displayModels = currentPageModels?.map((model) => (
-        <Link key={model.id} to={`/vehicleInfo/${model.id}`}><button>{model.name}</button></Link>
+        <div className='car-card' key={model.id}>
+          <img className='car-card-image' />
+          <h1>Model: {model.name}</h1>
+          <Link to={`/vehicleInfo/${model.id}`} className='more-info-button'>
+            <button>More info</button>
+          </Link>
+        </div>
   ))
   const displayPageNavigation = numberOfPages?.map((pageNumber) => (
         <li
@@ -50,29 +56,37 @@ const Vehicles = observer(({ store }) => {
         </li>
   ))
   const displaySearchedItems = (
-    <h1>{searchedModel?.name}</h1>
+    <div className='searched-item'>
+      <Link to={`/vehicleInfo/${searchedModel?.id}`}>
+            <div className='searched-item-name'>
+              <h3>{searchedModel?.name}</h3>
+            </div>
+      </Link>
+    </div>
   )
 
   return (
         <div className='all-vehicles'>
           <div className='filter-options'>
             <div className='search-bar'>
-              <h2>Search: </h2>
-              {searchBar}
+              <h2>Search</h2>
+              <div className='search-input'>
+                {searchBar}
+                {searchedModel ? displaySearchedItems : ''}
+              </div>
             </div>
             <div className='sort-by'>
-              <h3>Sort by: </h3>
-              <h3 onClick={() => {
-                fetchAllModels('makeId')
-              }}>Maker</h3>
-              <h3 onClick={() => {
-                fetchAllModels('id')
-              }}>id</h3>
-              <h3 onClick={() => {
-                fetchAllModels('name')
-              }}>Name</h3>
+                <h3>Sort by </h3>
+                <h4 onClick={() => {
+                  fetchAllModels('makeId')
+                }}>Maker</h4>
+                <h4 onClick={() => {
+                  fetchAllModels('id')
+                }}>id</h4>
+                <h4 onClick={() => {
+                  fetchAllModels('name')
+                }}>Name</h4>
             </div>
-            {displaySearchedItems}
           </div>
           <div className='car-cards-container'>
             {displayModels}

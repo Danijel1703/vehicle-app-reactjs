@@ -147,3 +147,12 @@ module.exports.deleteMakerModel = async (id) => {
     console.error(error)
   }
 }
+
+module.exports.getSearchInputMaker = async (input) => {
+  try {
+    const response = await axios.get(`${baseUrl}/resources/VehicleMake?searchQuery=WHERE name='${input}'`)
+    return response.data.item[0]
+  } catch (error) {
+    console.error(error)
+  }
+}

@@ -23,7 +23,7 @@ const Makers = observer(({ store }) => {
   }
   const fetchSearchInputMaker = async (input) => {
     const maker = await API.getSearchInputMaker(input)
-    store.setModelSearchedMaker(maker)
+    store.setSearchedMaker(maker)
   }
 
   useEffect(() => {
@@ -31,12 +31,18 @@ const Makers = observer(({ store }) => {
   }, [])
 
   const searchBar = (
-    <input type='text' onInput={e => {
+    <input type='text' placeholder='Search models...' onInput={e => {
       fetchSearchInputMaker(e.target.value)
     }} />
   )
-  const displayModels = currentPageMakers?.map((maker) => (
-        <Link key={maker.id} to={`/makerInfo/${maker.id}`}><button>{maker.name}</button></Link>
+  const displayMakers = currentPageMakers?.map((maker) => (
+    <div className='car-card' key={maker.id}>
+      <img className='car-card-image' />
+      <h1>Model: {maker.name}</h1>
+      <Link to={`/makerInfo/${maker.id}`} className='more-info-button'>
+        <button>More info</button>
+      </Link>
+    </div>
   ))
   const displayPageNavigation = numberOfPages?.map((pageNumber) => (
         <li
@@ -50,36 +56,44 @@ const Makers = observer(({ store }) => {
         </li>
   ))
   const displaySearchedItems = (
-    <h1>{searchedMaker?.name}</h1>
+    <div className='searched-item'>
+      <Link to={`/makerInfo/${searchedMaker?.id}`}>
+            <div className='searched-item-name'>
+              <h3>{searchedMaker?.name}</h3>
+            </div>
+      </Link>
+    </div>
   )
 
   return (
-        <div className='all-vehicles'>
-          <div className='filter-options'>
-            <div className='search-bar'>
-              <h2>Search: </h2>
-              {searchBar}
-            </div>
-            <div className='sort-by'>
-              <h3>Sort by: </h3>
-              <h3 onClick={() => {
-                fetchAllMakers('id')
-              }}>id</h3>
-              <h3 onClick={() => {
-                fetchAllMakers('name')
-              }}>Name</h3>
-            </div>
-            {displaySearchedItems}
-          </div>
-          <div className='car-cards-container'>
-            {displayModels}
-          </div>
-          <div className='page-select'>
-            <ul>
-              {displayPageNavigation}
-            </ul>
+    <div className='all-vehicles'>
+      <div className='filter-options'>
+        <div className='search-bar'>
+          <h2>Search</h2>
+          <div className='search-input'>
+            {searchBar}
+            {searchedMaker ? displaySearchedItems : ''}
           </div>
         </div>
+        <div className='sort-by'>
+            <h3>Sort by </h3>
+            <h4 onClick={() => {
+              fetchAllMakers('id')
+            }}>id</h4>
+            <h4 onClick={() => {
+              fetchAllMakers('name')
+            }}>Name</h4>
+        </div>
+      </div>
+      <div className='car-cards-container'>
+        {displayMakers}
+      </div>
+      <div className='page-select'>
+        <ul>
+          {displayPageNavigation}
+        </ul>
+        </div>
+    </div>
   )
 })
 
