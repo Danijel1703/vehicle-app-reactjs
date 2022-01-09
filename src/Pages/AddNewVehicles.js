@@ -16,8 +16,8 @@ const AddNewVehicles = observer(({ store }) => {
     const numberOfMakers = await API.getNumberOfMakers()
     store.setAllMakers(await API.getAllMakers(numberOfMakers))
   }
-  const addNewModel = async (makerId, model, newModelAbrv) => {
-    return await API.addNewModel({ makerId, model, newModelAbrv })
+  const addNewModel = async (makerId, model, abrv) => {
+    return await API.addNewModel({ makerId, model, abrv })
   }
 
   const displayMakers = makers.map((maker) => ((
@@ -29,8 +29,10 @@ const AddNewVehicles = observer(({ store }) => {
   return (
     <div>
       {displayMakers}
+      Name:
       <input type='text' onInput={e => store.setNewModelName(e.target.value) } />
       <br/>
+      Abrv:
       <input type='text' onInput={e => store.setNewModelAbrv(e.target.value) } />
       <button onClick={() => { addNewModel(selectedMaker, newModelName, newModelAbrv) }}>Insert</button>
     </div>

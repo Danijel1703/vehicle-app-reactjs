@@ -1,41 +1,38 @@
 import { observable, action, makeObservable } from 'mobx'
 import Helpers from '../Common/Helpers'
 
-class VehicleStore {
+class MakerStore {
   constructor () {
     this.numberOfPages = []
     this.currentPage = 1
-    this.searchedModel = null
+    this.searchedMaker = null
     this.allModels = []
     this.allMakers = []
-    this.currentPageModels = []
-    this.selectedModel = {}
-    this.selectedMaker = null
+    this.currentPageMakers = []
+    this.selectedMaker = {}
     this.name = ''
-    this.newModelName = null
-    this.newModelAbrv = null
+    this.newMakerName = null
+    this.newMakerAbrv = null
     makeObservable(this, {
       numberOfPages: observable,
       currentPage: observable,
-      searchedModel: observable,
+      searchedMaker: observable,
       allModels: observable,
       allMakers: observable,
-      currentPageModels: observable,
-      selectedModel: observable,
+      currentPageMakers: observable,
       selectedMaker: observable,
-      newModelName: observable,
-      newModelAbrv: observable,
       name: observable,
+      newMakerName: observable,
+      newMakerAbrv: observable,
       setNumberOfPages: action,
       setCurrentPage: action,
-      setSearchedModel: action,
+      setSearchedMaker: action,
       setAllModels: action,
       setAllMakers: action,
-      setCurrentPageModels: action,
-      setSelectedModel: action,
+      setCurrentPageMakers: action,
       setSelectedMaker: action,
-      setNewModelName: action,
-      setNewModelAbrv: action,
+      setNewMakerName: action,
+      setNewMakerAbrv: action,
       setName: action
     })
   }
@@ -48,8 +45,8 @@ class VehicleStore {
     this.currentPage = currentPage
   }
 
-  setSearchedModel (model) {
-    this.searchedModel = model
+  setSearchedMaker (maker) {
+    this.searchedMaker = maker
   }
 
   setAllModels (models) {
@@ -60,30 +57,26 @@ class VehicleStore {
     this.allMakers = makers
   }
 
-  setCurrentPageModels (models) {
-    this.currentPageModels = models
+  setCurrentPageMakers (makers) {
+    this.currentPageMakers = makers
   }
 
-  setSelectedModel (model) {
-    this.selectedModel = model
-  }
-
-  setSelectedMaker (id) {
-    this.selectedMaker = id
+  setSelectedMaker (maker) {
+    this.selectedMaker = maker
   }
 
   setName (name) {
     this.name = name
   }
 
-  setNewModelName (name) {
-    this.newModelName = name
+  setNewMakerName (name) {
+    this.newMakerName = name
   }
 
-  setNewModelAbrv (abrv) {
-    this.newModelAbrv = abrv
+  setNewMakerAbrv (abrv) {
+    this.newMakerAbrv = abrv
   }
 }
 
-const Store = new VehicleStore()
+const Store = new MakerStore()
 export default Store

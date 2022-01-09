@@ -1,4 +1,25 @@
+.all-vehicles {
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.filter-options > .search-bar > h2 {
+    font-size: 3vh;
+}
+
+.filter-options > .sort-by > h3 {
+    font-size: 2vh;
+}
+
 .page-select {
+    grid-column-start: 1;
+    grid-column-end: span 2;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -38,4 +59,32 @@ li.active {
 .sort-by {
     display: flex;
     flex-direction: column;
+}
+
+
+@media screen and (max-width: 1100px) {
+    .filter-options {
+        width: 100%;
+        grid-column-start: 1;
+        grid-column-end: col2-end;
+    }
+
+    .search-bar {
+       display: flex;
+       width: 100%;
+       justify-content: flex-start;
+       flex-direction: column;
+    }
+
+    .search-bar > * {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .sort-by {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
 }

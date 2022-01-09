@@ -14,9 +14,9 @@ module.exports.getAllVehicles = async (numberOfModels, sort) => {
   }
 }
 
-module.exports.getAllMakers = async (numberOfMakers) => {
+module.exports.getAllMakers = async (numberOfMakers, sort) => {
   try {
-    const response = await axios.get(`${baseUrl}/resources/VehicleMake?rpp=${numberOfMakers}`)
+    const response = await axios.get(`${baseUrl}/resources/VehicleMake?rpp=${numberOfMakers}&sort=${sort}`)
     return response.data.item
   } catch (error) {
     console.error(error)
@@ -79,6 +79,7 @@ module.exports.deleteSelectedModel = async (id) => {
 
 module.exports.addNewModel = async ({ makerId, model, abrv }) => {
   try {
+    console.log(abrv)
     const body = {
       makeId: makerId,
       name: model,
@@ -90,10 +91,58 @@ module.exports.addNewModel = async ({ makerId, model, abrv }) => {
   }
 }
 
+module.exports.addNewMaker = async ({ maker, abrv }) => {
+  try {
+    console.log(maker, abrv)
+    const body = {
+      name: maker,
+      abrv
+    }
+    const response = await axios.post(`${baseUrl}/resources/VehicleMake/`, body)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 module.exports.getSearchInputModel = async (input) => {
   try {
     const response = await axios.get(`${baseUrl}/resources/VehicleModel?searchQuery=WHERE name='${input}'`)
     return response.data.item[0]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.getMakerById = async (id) => {
+  try {
+    const response = await axios.get(`${baseUrl}/resources/VehicleMake/${id}`)
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.updateSelectedMaker = async (id, name) => {
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const response = await axios.patch(`${baseUrl}/resources/VehicleMake/${id}`, { name })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.deleteSelectedMaker = async (id) => {
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const response = await axios.delete(`${baseUrl}/resources/VehicleMake/${id}`)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports.deleteMakerModel = async (id) => {
+  try {
+    const deleteMakerModel = await axios.delete(`${baseUrl}/resources/VehicleModel/${id}`)
   } catch (error) {
     console.error(error)
   }

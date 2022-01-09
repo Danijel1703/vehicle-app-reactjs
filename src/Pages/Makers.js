@@ -4,39 +4,39 @@ import API from '../Common/API'
 import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 
-const Vehicles = observer(({ store }) => {
+const Makers = observer(({ store }) => {
   const numberOfPages = store.numberOfPages
   const currentPage = store.currentPage
-  const searchedModel = store.searchedModel
-  const allModels = store.allModels
-  const currentPageModels = store.currentPageModels
+  const searchedMaker = store.searchedMaker
+  const allMakers = store.allMakers
+  const currentPageMakers = store.currentPageMakers
 
-  const fetchAllModels = async (sort = 'name') => {
-    const numberOfModels = await API.getNumberOfModels()
-    store.setNumberOfPages(numberOfModels)
-    const models = await API.getAllVehicles(numberOfModels, sort)
-    models.forEach((model) => {
-      model.page = Math.floor(models.indexOf(model) / 10) + 1
+  const fetchAllMakers = async (sort = 'name') => {
+    const numberOfMakers = await API.getNumberOfMakers()
+    store.setNumberOfPages(numberOfMakers)
+    const makers = await API.getAllMakers(numberOfMakers, sort)
+    makers.forEach((maker) => {
+      maker.page = Math.floor(makers.indexOf(maker) / 10) + 1
     })
-    store.setAllModels(models)
-    store.setCurrentPageModels(models.filter(model => model.page === currentPage))
+    store.setAllMakers(makers)
+    store.setCurrentPageMakers(makers.filter(maker => maker.page === currentPage))
   }
-  const fetchSearchInputModel = async (input) => {
-    const model = await API.getSearchInputModel(input)
-    store.setSearchedModel(model)
+  const fetchSearchInputMaker = async (input) => {
+    const maker = await API.getSearchInputMaker(input)
+    store.setModelSearchedMaker(maker)
   }
 
   useEffect(() => {
-    fetchAllModels()
+    fetchAllMakers()
   }, [])
 
   const searchBar = (
     <input type='text' onInput={e => {
-      fetchSearchInputModel(e.target.value)
+      fetchSearchInputMaker(e.target.value)
     }} />
   )
-  const displayModels = currentPageModels?.map((model) => (
-        <Link key={model.id} to={`/vehicleInfo/${model.id}`}><button>{model.name}</button></Link>
+  const displayModels = currentPageMakers?.map((maker) => (
+        <Link key={maker.id} to={`/makerInfo/${maker.id}`}><button>{maker.name}</button></Link>
   ))
   const displayPageNavigation = numberOfPages?.map((pageNumber) => (
         <li
@@ -44,13 +44,13 @@ const Vehicles = observer(({ store }) => {
         className={pageNumber === store.currentPage ? 'active' : ''}
         onClick={() => {
           store.setCurrentPage(pageNumber)
-          store.setCurrentPageModels(allModels.filter(model => model.page === pageNumber))
+          store.setCurrentPageModels(allMakers.filter(maker => maker.page === pageNumber))
         }}>
             {pageNumber}
         </li>
   ))
   const displaySearchedItems = (
-    <h1>{searchedModel?.name}</h1>
+    <h1>{searchedMaker?.name}</h1>
   )
 
   return (
@@ -63,13 +63,10 @@ const Vehicles = observer(({ store }) => {
             <div className='sort-by'>
               <h3>Sort by: </h3>
               <h3 onClick={() => {
-                fetchAllModels('makeId')
-              }}>Maker</h3>
-              <h3 onClick={() => {
-                fetchAllModels('id')
+                fetchAllMakers('id')
               }}>id</h3>
               <h3 onClick={() => {
-                fetchAllModels('name')
+                fetchAllMakers('name')
               }}>Name</h3>
             </div>
             {displaySearchedItems}
@@ -86,4 +83,4 @@ const Vehicles = observer(({ store }) => {
   )
 })
 
-export default Vehicles
+export default Makers
