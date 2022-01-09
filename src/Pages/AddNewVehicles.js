@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react/cjs/react.development'
+import { observer } from 'mobx-react-lite'
+import { useEffect } from 'react/cjs/react.development'
 import API from '../Common/API'
 
-const AddNewVehicles = () => {
-  const [makers, setMakers] = useState([])
-  const [selectedMaker, setSelectedMaker] = useState('')
-  const [name, setName] = useState('')
-  const [abrv, setAbrv] = useState('')
+const AddNewVehicles = observer(({ store }) => {
+  const makers = store.allMakers
+  const selectedMaker = store.selectedMaker
+  const newModelName = store.newModelName
+  const newModelAbrv = store.newModelAbrv
 
   useEffect(() => {
     fetchAllMakers()
@@ -13,30 +14,26 @@ const AddNewVehicles = () => {
 
   const fetchAllMakers = async () => {
     const numberOfMakers = await API.getNumberOfMakers()
-    setMakers(await API.getAllMakers(numberOfMakers))
+    store.setAllMakers(await API.getAllMakers(numberOfMakers))
   }
-  const addNewModel = async (makerId, model, abrv) => {
-    console.log(makerId, model, abrv)
-    return await API.addNewModel({ makerId, model, abrv })
+  const addNewModel = async (makerId, model, newModelAbrv) => {
+    return await API.addNewModel({ makerId, model, newModelAbrv })
   }
+
+  const displayMakers = makers.map((maker) => ((
+      <div key={maker.id}>
+          <button onClick={() => { store.setSelectedMaker(maker.id) }}>{maker.name}</button>
+      </div>
+  )))
 
   return (
     <div>
-      {
-        makers.map((maker) => {
-          return (
-            <div key={maker.id}>
-                <button onClick={() => { setSelectedMaker(maker.id) }}>{maker.name}</button>
-            </div>
-          )
-        })
-      }
-      <input type='text' onInput={e => setName(e.target.value) } />
+      {displayMakers}
+      <input type='text' onInput={e => store.setNewModelName(e.target.value) } />
       <br/>
-      <input type='text' onInput={e => setAbrv(e.target.value) } />
-      <button onClick={() => { addNewModel(selectedMaker, name, abrv) }}>Insert</button>
+      <input type='text' onInput={e => store.setNewModelAbrv(e.target.value) } />
+      <button onClick={() => { addNewModel(selectedMaker, newModelName, newModelAbrv) }}>Insert</button>
     </div>
   )
-}
-
+})
 export default AddNewVehicles

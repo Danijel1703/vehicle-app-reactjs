@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useState } from 'react/cjs/react.development'
 import API from '../Common/API'
+import { observer } from 'mobx-react-lite'
 
-const VehicleInfo = () => {
+const VehicleInfo = observer(({ store }) => {
   const { id } = useParams()
-  const [selectedModel, setSelectedModel] = useState({})
-  const [name, setName] = useState('test')
+  const selectedModel = store.selectedModel
+  const name = store.name
 
   useEffect(async () => {
-    setSelectedModel(await API.getModelById(id))
+    store.setSelectedModel(await API.getModelById(id))
   }, [])
 
   const updateSelectedModel = async (id, name) => {
@@ -23,11 +23,11 @@ const VehicleInfo = () => {
   return (
         <div>
             <h1>{selectedModel.name}</h1>
-            <input type='text' onInput={e => { setName(e.target.value) }} />
+            <input type='text' onInput={e => { store.setName(e.target.value) }} />
             <button onClick={() => updateSelectedModel(id, name)}>Edit</button>
             <button onClick={() => deleteSelectedModel(id)}>Delete</button>
         </div>
   )
-}
+})
 
 export default VehicleInfo

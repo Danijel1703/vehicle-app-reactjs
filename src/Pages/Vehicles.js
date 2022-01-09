@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react/cjs/react.development'
+import { useEffect } from 'react/cjs/react.development'
 import '../Vehicles.css'
 import API from '../Common/API'
-import Helpers from '../Common/Helpers'
 import { Link } from 'react-router-dom'
+import { observer } from 'mobx-react-lite'
 
-const Vehicles = () => {
-  const [numberOfPages, setNumberOfPages] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchedModel, setModelSearchedModel] = useState(null)
-  const [allModels, setAllModels] = useState([])
-  const [currentPageModels, setCurrentPageModels] = useState([])
+const Vehicles = observer(({ store }) => {
+  const numberOfPages = store.numberOfPages
+  const currentPage = store.currentPage
+  const searchedModel = store.searchedModel
+  const allModels = store.allModels
+  const currentPageModels = store.currentPageModels
 
   const fetchAllModels = async (sort = 'name') => {
     const numberOfModels = await API.getNumberOfModels()
-    setNumberOfPages(Helpers.toArray(Helpers.getNumberOfPages(numberOfModels)))
+    store.setNumberOfPages(numberOfModels)
     const models = await API.getAllVehicles(numberOfModels, sort)
     models.forEach((model) => {
       model.page = Math.floor(models.indexOf(model) / 10) + 1
     })
-    setAllModels(models)
-    setCurrentPageModels(models.filter(model => model.page === currentPage))
+    store.setAllModels(models)
+    store.setCurrentPageModels(models.filter(model => model.page === currentPage))
   }
   const fetchSearchInputModel = async (input) => {
     const model = await API.getSearchInputModel(input)
-    setModelSearchedModel(model)
+    store.setModelSearchedModel(model)
   }
 
   useEffect(() => {
@@ -55,8 +55,8 @@ const Vehicles = () => {
         key={pageNumber}
         className={currentPage === pageNumber ? 'active' : ''}
         onClick={() => {
-          setCurrentPage(pageNumber)
-          setCurrentPageModels(allModels.filter(model => model.page === pageNumber))
+          store.setCurrentPage(pageNumber)
+          store.setCurrentPageModels(allModels.filter(model => model.page === pageNumber))
         }}>
             {pageNumber}
         </li>
@@ -64,8 +64,6 @@ const Vehicles = () => {
   const displaySearchedItems = (
     <h1>{searchedModel?.name}</h1>
   )
-
-  console.log(currentPageModels, allModels, currentPage)
 
   return (
         <div className='all-vehicles'>
@@ -88,6 +86,6 @@ const Vehicles = () => {
           </div>
         </div>
   )
-}
+})
 
 export default Vehicles
