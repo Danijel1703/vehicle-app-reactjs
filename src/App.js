@@ -6,8 +6,6 @@ import {
   Route
 } from 'react-router-dom'
 import AddNewModel from './Pages/AddNewModel'
-import { useEffect } from 'react/cjs/react.development'
-import API from './Common/API'
 import ModelStore from './Stores/ModelStore'
 import MakerStore from './Stores/MakerStore'
 import AddNewMaker from './Pages/AddNewMaker'
@@ -17,12 +15,6 @@ import ModelInfo from './Pages/ModelInfo'
 import Models from './Pages/Models'
 
 const App = () => {
-  useEffect(async () => {
-    const numberOfModels = await API.getNumberOfModels()
-    const allModels = await API.getAllModels(numberOfModels)
-    const numberOfMakers = await API.getNumberOfMakers()
-    const allMakers = await API.getAllMakers(numberOfMakers)
-  })
   return (
     <>
       <Layout>

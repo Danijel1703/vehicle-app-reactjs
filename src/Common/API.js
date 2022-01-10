@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
 // backend koji koristi axios library za slanje CRUD requestova
-// svi requestvoi su napravljeni da se mogu pozvati ko obične funkcije u drugim komponentama
-
 const axios = require('axios').default
 const baseUrl = 'https://api.baasic.com/beta/vehicle-app-reactjs'
 
@@ -160,5 +158,4 @@ class CreateAPI {
 }
 
 const API = new CreateAPI()
-
 export default API
