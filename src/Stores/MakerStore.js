@@ -5,7 +5,7 @@ class MakerStore {
   constructor () {
     this.numberOfPages = []
     this.currentPage = 1
-    this.searchedMaker = null
+    this.searchMakers = null
     this.allModels = []
     this.allMakers = []
     this.currentPageMakers = []
@@ -13,10 +13,11 @@ class MakerStore {
     this.name = ''
     this.newMakerName = null
     this.newMakerAbrv = null
+    this.currentSort = null
     makeObservable(this, {
       numberOfPages: observable,
       currentPage: observable,
-      searchedMaker: observable,
+      searchMakers: observable,
       allModels: observable,
       allMakers: observable,
       currentPageMakers: observable,
@@ -24,15 +25,17 @@ class MakerStore {
       name: observable,
       newMakerName: observable,
       newMakerAbrv: observable,
+      currentSort: observable,
       setNumberOfPages: action,
       setCurrentPage: action,
-      setSearchedMaker: action,
+      setSearchMakers: action,
       setAllModels: action,
       setAllMakers: action,
       setCurrentPageMakers: action,
       setSelectedMaker: action,
       setNewMakerName: action,
       setNewMakerAbrv: action,
+      setCurrentSort: action,
       setName: action
     })
   }
@@ -45,8 +48,8 @@ class MakerStore {
     this.currentPage = currentPage
   }
 
-  setSearchedMaker (maker) {
-    this.searchedMaker = maker
+  setSearchMakers (maker) {
+    this.searchMakers = maker
   }
 
   setAllModels (models) {
@@ -75,6 +78,10 @@ class MakerStore {
 
   setNewMakerAbrv (abrv) {
     this.newMakerAbrv = abrv
+  }
+
+  setCurrentSort (currentSort) {
+    this.currentSort = currentSort
   }
 }
 

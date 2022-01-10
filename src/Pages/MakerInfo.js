@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import API from '../Common/API'
 import { observer } from 'mobx-react-lite'
+import '../EditMaker.css'
 
 const MakerInfo = observer(({ store }) => {
   const { id } = useParams()
@@ -16,7 +17,11 @@ const MakerInfo = observer(({ store }) => {
   }, [])
 
   const updateSelectedMaker = async (id, name) => {
-    return await API.updateSelectedMaker(id, name)
+    if (!name) {
+      window.alert('You must insert a name.')
+    } else {
+      return await API.updateSelectedMaker(id, name)
+    }
   }
 
   const deleteSelectedMaker = async (id) => {
@@ -32,14 +37,21 @@ const MakerInfo = observer(({ store }) => {
   }
 
   return (
-        <div>
+        <div className='edit-form'>
+          <div className='text-input'>
             <h1>{selectedMaker.name}</h1>
+            <h1>New maker name: </h1>
             <input type='text' onInput={e => { store.setName(e.target.value) }} />
-            <button onClick={() => updateSelectedMaker(id, name)}>Edit</button>
-            <button onClick={() => {
+          </div>
+          <div className='button-container'>
+            <button className='insert-button' onClick={() => updateSelectedMaker(id, name)}>Edit</button>
+            <button
+            className='delete-button'
+            onClick={() => {
               deleteSelectedMaker(id)
               deleteMakerModels(id)
             }}>Delete</button>
+          </div>
         </div>
   )
 })

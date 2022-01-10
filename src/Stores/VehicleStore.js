@@ -5,7 +5,7 @@ class VehicleStore {
   constructor () {
     this.numberOfPages = []
     this.currentPage = 1
-    this.searchedModel = null
+    this.searchModels = []
     this.allModels = []
     this.allMakers = []
     this.currentPageModels = []
@@ -14,10 +14,11 @@ class VehicleStore {
     this.name = ''
     this.newModelName = null
     this.newModelAbrv = null
+    this.currentSort = null
     makeObservable(this, {
       numberOfPages: observable,
       currentPage: observable,
-      searchedModel: observable,
+      searchModels: observable,
       allModels: observable,
       allMakers: observable,
       currentPageModels: observable,
@@ -25,10 +26,11 @@ class VehicleStore {
       selectedMaker: observable,
       newModelName: observable,
       newModelAbrv: observable,
+      currentSort: observable,
       name: observable,
       setNumberOfPages: action,
       setCurrentPage: action,
-      setSearchedModel: action,
+      setSearchModels: action,
       setAllModels: action,
       setAllMakers: action,
       setCurrentPageModels: action,
@@ -36,6 +38,7 @@ class VehicleStore {
       setSelectedMaker: action,
       setNewModelName: action,
       setNewModelAbrv: action,
+      setCurrentSort: action,
       setName: action
     })
   }
@@ -48,8 +51,8 @@ class VehicleStore {
     this.currentPage = currentPage
   }
 
-  setSearchedModel (model) {
-    this.searchedModel = model
+  setSearchModels (models) {
+    this.searchModels = models
   }
 
   setAllModels (models) {
@@ -82,6 +85,11 @@ class VehicleStore {
 
   setNewModelAbrv (abrv) {
     this.newModelAbrv = abrv
+  }
+
+  setCurrentSort (currentSort) {
+    console.log(currentSort)
+    this.currentSort = currentSort
   }
 }
 

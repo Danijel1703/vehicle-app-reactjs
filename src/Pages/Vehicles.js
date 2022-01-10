@@ -7,11 +7,13 @@ import { observer } from 'mobx-react-lite'
 const Vehicles = observer(({ store }) => {
   const numberOfPages = store.numberOfPages
   const currentPage = store.currentPage
-  const searchedModel = store.searchedModel
+  const searchModels = store.searchModels
   const allModels = store.allModels
   const currentPageModels = store.currentPageModels
+  const currentSort = store.currentSort
 
   const fetchAllModels = async (sort = 'name') => {
+    store.setCurrentSort(sort)
     const numberOfModels = await API.getNumberOfModels()
     store.setNumberOfPages(numberOfModels)
     const models = await API.getAllVehicles(numberOfModels, sort)
@@ -22,8 +24,13 @@ const Vehicles = observer(({ store }) => {
     store.setCurrentPageModels(models.filter(model => model.page === currentPage))
   }
   const fetchSearchInputModel = async (input) => {
-    const model = await API.getSearchInputModel(input)
-    store.setSearchedModel(model)
+    console.log(input)
+    const inputUpperCase = input.toUpperCase()
+    if (input !== '') {
+      store.setSearchModels(allModels.filter(model => model.name.toUpperCase().includes(inputUpperCase)))
+    } else {
+      store.setSearchModels([])
+    }
   }
 
   useEffect(() => {
@@ -31,13 +38,13 @@ const Vehicles = observer(({ store }) => {
   }, [])
 
   const searchBar = (
-    <input type='text' placeholder='Search models...' onInput={e => {
+    <input type='text' placeholder=' eg. Audi A4' onInput={e => {
       fetchSearchInputModel(e.target.value)
     }} />
   )
   const displayModels = currentPageModels?.map((model) => (
         <div className='car-card' key={model.id}>
-          <img className='car-card-image' />
+          <img className='car-card-image' alt='Car image goes here' />
           <h1>Model: {model.name}</h1>
           <Link to={`/vehicleInfo/${model.id}`} className='more-info-button'>
             <button>More info</button>
@@ -55,15 +62,13 @@ const Vehicles = observer(({ store }) => {
             {pageNumber}
         </li>
   ))
-  const displaySearchedItems = (
-    <div className='searched-item'>
-      <Link to={`/vehicleInfo/${searchedModel?.id}`}>
-            <div className='searched-item-name'>
-              <h3>{searchedModel?.name}</h3>
-            </div>
+  const displaySearchedItems = searchModels?.map((searchModel) => (
+      <Link to={`/vehicleInfo/${searchModel?.id}`} key={searchModel.id}>
+        <li>
+                {searchModel.name}
+        </li>
       </Link>
-    </div>
-  )
+  ))
 
   return (
         <div className='all-vehicles'>
@@ -72,18 +77,24 @@ const Vehicles = observer(({ store }) => {
               <h2>Search</h2>
               <div className='search-input'>
                 {searchBar}
-                {searchedModel ? displaySearchedItems : ''}
+                {searchModels.length > 0 && <ul className='search-items'>{displaySearchedItems}</ul>}
               </div>
             </div>
             <div className='sort-by'>
                 <h3>Sort by </h3>
-                <h4 onClick={() => {
+                <h4
+                className={currentSort === 'makeId' ? 'active' : ''}
+                onClick={() => {
                   fetchAllModels('makeId')
                 }}>Maker</h4>
-                <h4 onClick={() => {
+                <h4
+                className={currentSort === 'id' ? 'active' : ''}
+                onClick={() => {
                   fetchAllModels('id')
                 }}>id</h4>
-                <h4 onClick={() => {
+                <h4
+                className={currentSort === 'name' ? 'active' : ''}
+                onClick={() => {
                   fetchAllModels('name')
                 }}>Name</h4>
             </div>

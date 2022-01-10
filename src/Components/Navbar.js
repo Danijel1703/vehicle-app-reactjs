@@ -8,9 +8,8 @@ const Navbar = () => {
 
   return (
         <nav className='navbar'>
-            <ul className={`navbar-content ${isOpen ? '' : 'hide'}`}>
-                <NavLink to='/' activeclassname='active'><li>Home</li></NavLink>
-                <NavLink to='/vehicles' activeclassname='active'><li>Vehicles</li></NavLink>
+            <ul className={`navbar-content ${isOpen ? '' : 'hide'}`} onClick={() => { setOpen(false) }}>
+                <NavLink to='/' activeclassname='active'><li>Vehicles</li></NavLink>
                 <NavLink to='/makers' activeclassname='active'><li>Makers</li></NavLink>
                 <NavLink to='/addNewModel' activeclassname='active'><li>Add new vehicle</li></NavLink>
                 <NavLink to='/addNewMaker' activeclassname='active'><li>Add new maker</li></NavLink>

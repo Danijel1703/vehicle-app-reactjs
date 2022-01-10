@@ -12,7 +12,6 @@ import { useEffect } from 'react/cjs/react.development'
 import API from './Common/API'
 import VehicleStore from './Stores/VehicleStore'
 import MakerStore from './Stores/MakerStore'
-import Home from './Pages/Home'
 import AddNewMaker from './Pages/AddNewMaker'
 import Makers from './Pages/Makers'
 import MakerInfo from './Pages/MakerInfo'
@@ -28,7 +27,7 @@ const App = () => {
     <>
       <Layout>
         <Routes>
-            <Route path='/' element={ <Home /> } />
+            <Route path='/' element={ <Vehicles store = {VehicleStore} /> } />
             <Route path='/vehicles' element={<Vehicles store = {VehicleStore} />} />
             <Route path='/makers' element={<Makers store = {MakerStore} />} />
             <Route path='/addNewModel' element={<AddNewVehicles store = {VehicleStore} />} />

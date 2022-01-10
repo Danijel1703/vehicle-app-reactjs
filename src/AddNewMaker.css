@@ -1,0 +1,54 @@
+.add-new-form {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.select-maker:hover, .select-maker:focus {
+    outline: none;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.424);
+    transition: 0.3s;
+}
+
+.text-input {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.text-input > input {
+    border: 1px solid black;
+    height: 2rem;
+}
+
+.text-input > input:hover, input:focus {
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.424);
+    transition: 0.3s;
+    outline: none;
+}
+
+.button-container {
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.insert-button {
+    width: 5rem;
+    height: 2rem;
+    border: none;
+    color: white;
+    background-color: green;
+    border: 1px solid green;
+    cursor: pointer;
+}
+
+.insert-button:hover {
+    background-color: white;
+    border-color: green;
+    color: black;
+    transition: 0.3s;
+}
