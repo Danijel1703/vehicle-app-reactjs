@@ -46,7 +46,7 @@ const MakerInfo = observer(({ store }) => {
           </div>
           <div className='text-input'>
             <h1>{selectedMaker.abrv}</h1>
-            <h1>New maker name: </h1>
+            <h1>New maker abrv: </h1>
             <input type='text' onInput={e => { store.setAbrv(e.target.value) }} />
           </div>
           <div className='button-container'>
