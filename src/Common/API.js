@@ -78,7 +78,6 @@ class CreateAPI {
 
   async addNewModel ({ makerId, model, abrv }) {
     try {
-      console.log(abrv)
       const body = {
         makeId: makerId,
         name: model,
@@ -92,7 +91,6 @@ class CreateAPI {
 
   async addNewMaker ({ maker, abrv }) {
     try {
-      console.log(maker, abrv)
       const body = {
         name: maker,
         abrv

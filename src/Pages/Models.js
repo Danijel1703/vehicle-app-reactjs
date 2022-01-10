@@ -1,4 +1,4 @@
-import { useEffect } from 'react/cjs/react.development'
+import { useEffect } from 'react'
 import '../Models.css'
 import API from '../Common/API'
 import { Link } from 'react-router-dom'
@@ -29,7 +29,6 @@ const Models = observer(({ store }) => {
     store.setCurrentPageModels(models.filter(model => model.page === currentPage))
   }
   const fetchSearchInputModel = async (input) => {
-    console.log(input)
     const inputUpperCase = input.toUpperCase()
     if (input !== '') {
       store.setSearchModels(allModels.filter(model => model.name.toUpperCase().includes(inputUpperCase)))
@@ -42,7 +41,6 @@ const Models = observer(({ store }) => {
     fetchAllModels()
     store.setImages(importAllImages(require.context('../Common/images/', false, /\.(png|jpe?g|svg)$/)))
   }, [])
-  console.log(images)
 
   const searchBar = (
     <input type='text' placeholder=' eg. Audi A4' onInput={e => {
@@ -51,7 +49,6 @@ const Models = observer(({ store }) => {
   )
   const displayModels = currentPageModels?.map((model) => {
     const image = images.filter(image => image.includes(model.name))
-    console.log(image)
     return (
         <div className='car-card' key={model.id}>
           <img className='car-card-image' alt='Car image goes here' src={image}/>

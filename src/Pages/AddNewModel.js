@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { useEffect } from 'react/cjs/react.development'
+import { useEffect } from 'react'
 import API from '../Common/API'
 import '../AddNewModel.css'
 import { Link } from 'react-router-dom'
@@ -19,14 +19,12 @@ const AddNewModel = observer(({ store }) => {
     store.setAllMakers(await API.getAllMakers(numberOfMakers))
   }
   const addNewModel = async (makerId, model, abrv) => {
-    console.log(makerId, model, abrv)
     if (!makerId || !model || !abrv || makerId === 'Select maker...') {
       window.alert('All values must be filled!')
     } else {
       return await API.addNewModel({ makerId, model, abrv })
     }
   }
-  console.log(selectedMaker)
   const displayMakers = makers.map((maker) => ((
       <option
         value={maker.id}

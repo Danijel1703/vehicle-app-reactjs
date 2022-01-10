@@ -98,7 +98,6 @@ class ModelStore {
   }
 
   setCurrentSort (currentSort) {
-    console.log(currentSort)
     this.currentSort = currentSort
   }
 
