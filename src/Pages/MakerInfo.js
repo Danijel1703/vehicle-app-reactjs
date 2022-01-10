@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import API from '../Common/API'
 import { observer } from 'mobx-react-lite'
 import '../EditMaker.css'
@@ -50,13 +50,17 @@ const MakerInfo = observer(({ store }) => {
             <input type='text' onInput={e => { store.setAbrv(e.target.value) }} />
           </div>
           <div className='button-container'>
-            <button className='insert-button' onClick={() => updateSelectedMaker(id, name, abrv)}>Edit</button>
-            <button
-            className='delete-button'
-            onClick={() => {
-              deleteSelectedMaker(id)
-              deleteMakerModels(id)
-            }}>Delete</button>
+            <Link to='/makers'>
+              <button className='insert-button' onClick={() => updateSelectedMaker(id, name, abrv)}>Edit</button>
+            </Link>
+            <Link to='/makers'>
+              <button
+              className='delete-button'
+              onClick={() => {
+                deleteSelectedMaker(id)
+                deleteMakerModels(id)
+              }}>Delete</button>
+            </Link>
           </div>
         </div>
   )
