@@ -36,7 +36,7 @@
     justify-content: flex-end;
 }
 
-.insert-button {
+.insert-button-add {
     width: 5rem;
     height: 2rem;
     border: none;
@@ -46,7 +46,7 @@
     cursor: pointer;
 }
 
-.insert-button:hover {
+.insert-button-add:hover {
     background-color: white;
     border-color: green;
     color: black;

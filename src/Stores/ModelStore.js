@@ -1,7 +1,7 @@
 import { observable, action, makeObservable } from 'mobx'
 import Helpers from '../Common/Helpers'
 
-class VehicleStore {
+class ModelStore {
   constructor () {
     this.numberOfPages = []
     this.currentPage = 1
@@ -12,9 +12,11 @@ class VehicleStore {
     this.selectedModel = {}
     this.selectedMaker = null
     this.name = ''
+    this.abrv = ''
     this.newModelName = null
     this.newModelAbrv = null
     this.currentSort = null
+    this.images = []
     makeObservable(this, {
       numberOfPages: observable,
       currentPage: observable,
@@ -28,6 +30,8 @@ class VehicleStore {
       newModelAbrv: observable,
       currentSort: observable,
       name: observable,
+      abrv: observable,
+      images: observable,
       setNumberOfPages: action,
       setCurrentPage: action,
       setSearchModels: action,
@@ -39,7 +43,9 @@ class VehicleStore {
       setNewModelName: action,
       setNewModelAbrv: action,
       setCurrentSort: action,
-      setName: action
+      setName: action,
+      setAbrv: action,
+      setImages: action
     })
   }
 
@@ -79,6 +85,10 @@ class VehicleStore {
     this.name = name
   }
 
+  setAbrv (abrv) {
+    this.abrv = abrv
+  }
+
   setNewModelName (name) {
     this.newModelName = name
   }
@@ -91,7 +101,11 @@ class VehicleStore {
     console.log(currentSort)
     this.currentSort = currentSort
   }
+
+  setImages (images) {
+    this.images = images
+  }
 }
 
-const Store = new VehicleStore()
+const Store = new ModelStore()
 export default Store

@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import API from '../Common/API'
 import '../AddNewMaker.css'
+import { Link } from 'react-router-dom'
 
 const AddNewMaker = observer(({ store }) => {
   const newMakerName = store.newMakerName
@@ -25,7 +26,9 @@ const AddNewMaker = observer(({ store }) => {
         <input type='text' onInput={e => store.setNewMakerAbrv(e.target.value) } />
       </div>
       <div className='button-container'>
-        <button className='insert-button' onClick={() => { addNewMaker(newMakerName, newMakerAbrv) }}>Insert</button>
+        <Link to='/makers'>
+          <button className='insert-button-add' onClick={() => { addNewMaker(newMakerName, newMakerAbrv) }}>Insert</button>
+        </Link>
       </div>
     </div>
   )

@@ -5,7 +5,7 @@
 const axios = require('axios').default
 const baseUrl = 'https://api.baasic.com/beta/vehicle-app-reactjs'
 
-module.exports.getAllVehicles = async (numberOfModels, sort) => {
+module.exports.getAllModels = async (numberOfModels, sort) => {
   try {
     const response = await axios.get(`${baseUrl}/resources/VehicleModel?rpp=${numberOfModels}&sort=${sort}`)
     return response.data.item
@@ -59,10 +59,10 @@ module.exports.getModelById = async (id) => {
   }
 }
 
-module.exports.updateSelectedModel = async (id, name) => {
+module.exports.updateSelectedModel = async (id, name, abrv) => {
   try {
     // eslint-disable-next-line no-unused-vars
-    const response = await axios.patch(`${baseUrl}/resources/VehicleModel/${id}`, { name })
+    const response = await axios.patch(`${baseUrl}/resources/VehicleModel/${id}`, { name, abrv })
   } catch (error) {
     console.error(error)
   }
@@ -122,10 +122,10 @@ module.exports.getMakerById = async (id) => {
   }
 }
 
-module.exports.updateSelectedMaker = async (id, name) => {
+module.exports.updateSelectedMaker = async (id, name, abrv) => {
   try {
     // eslint-disable-next-line no-unused-vars
-    const response = await axios.patch(`${baseUrl}/resources/VehicleMake/${id}`, { name })
+    const response = await axios.patch(`${baseUrl}/resources/VehicleMake/${id}`, { name, abrv })
   } catch (error) {
     console.error(error)
   }

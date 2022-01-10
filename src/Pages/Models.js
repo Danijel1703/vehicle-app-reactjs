@@ -1,22 +1,27 @@
 import { useEffect } from 'react/cjs/react.development'
-import '../Vehicles.css'
+import '../Models.css'
 import API from '../Common/API'
 import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 
-const Vehicles = observer(({ store }) => {
+const Models = observer(({ store }) => {
   const numberOfPages = store.numberOfPages
   const currentPage = store.currentPage
   const searchModels = store.searchModels
   const allModels = store.allModels
   const currentPageModels = store.currentPageModels
   const currentSort = store.currentSort
+  const images = store.images
+
+  const importAllImages = (r) => {
+    return r.keys().map(r)
+  }
 
   const fetchAllModels = async (sort = 'name') => {
     store.setCurrentSort(sort)
     const numberOfModels = await API.getNumberOfModels()
     store.setNumberOfPages(numberOfModels)
-    const models = await API.getAllVehicles(numberOfModels, sort)
+    const models = await API.getAllModels(numberOfModels, sort)
     models.forEach((model) => {
       model.page = Math.floor(models.indexOf(model) / 10) + 1
     })
@@ -35,22 +40,28 @@ const Vehicles = observer(({ store }) => {
 
   useEffect(() => {
     fetchAllModels()
+    store.setImages(importAllImages(require.context('../Common/images/', false, /\.(png|jpe?g|svg)$/)))
   }, [])
+  console.log(images)
 
   const searchBar = (
     <input type='text' placeholder=' eg. Audi A4' onInput={e => {
       fetchSearchInputModel(e.target.value)
     }} />
   )
-  const displayModels = currentPageModels?.map((model) => (
+  const displayModels = currentPageModels?.map((model) => {
+    const image = images.filter(image => image.includes(model.name))
+    console.log(image)
+    return (
         <div className='car-card' key={model.id}>
-          <img className='car-card-image' alt='Car image goes here' />
+          <img className='car-card-image' alt='Car image goes here' src={image}/>
           <h1>Model: {model.name}</h1>
           <Link to={`/vehicleInfo/${model.id}`} className='more-info-button'>
             <button>More info</button>
           </Link>
         </div>
-  ))
+    )
+  })
   const displayPageNavigation = numberOfPages?.map((pageNumber) => (
         <li
         key={pageNumber}
@@ -111,4 +122,4 @@ const Vehicles = observer(({ store }) => {
   )
 })
 
-export default Vehicles
+export default Models

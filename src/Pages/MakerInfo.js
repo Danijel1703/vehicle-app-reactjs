@@ -9,18 +9,19 @@ const MakerInfo = observer(({ store }) => {
   const selectedMaker = store.selectedMaker
   const allModels = store.allModels
   const name = store.name
+  const abrv = store.abrv
 
   useEffect(async () => {
     store.setSelectedMaker(await API.getMakerById(id))
     const numberOfModels = await API.getNumberOfModels()
-    store.setAllModels(await API.getAllVehicles(numberOfModels))
+    store.setAllModels(await API.getAllModels(numberOfModels))
   }, [])
 
-  const updateSelectedMaker = async (id, name) => {
-    if (!name) {
-      window.alert('You must insert a name.')
+  const updateSelectedMaker = async (id, name, abrv) => {
+    if (!name || !abrv) {
+      window.alert('Unsuccessful, all values must be filled.')
     } else {
-      return await API.updateSelectedMaker(id, name)
+      return await API.updateSelectedMaker(id, name, abrv)
     }
   }
 
@@ -43,8 +44,13 @@ const MakerInfo = observer(({ store }) => {
             <h1>New maker name: </h1>
             <input type='text' onInput={e => { store.setName(e.target.value) }} />
           </div>
+          <div className='text-input'>
+            <h1>{selectedMaker.abrv}</h1>
+            <h1>New maker name: </h1>
+            <input type='text' onInput={e => { store.setAbrv(e.target.value) }} />
+          </div>
           <div className='button-container'>
-            <button className='insert-button' onClick={() => updateSelectedMaker(id, name)}>Edit</button>
+            <button className='insert-button' onClick={() => updateSelectedMaker(id, name, abrv)}>Edit</button>
             <button
             className='delete-button'
             onClick={() => {

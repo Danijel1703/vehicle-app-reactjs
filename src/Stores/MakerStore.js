@@ -11,6 +11,7 @@ class MakerStore {
     this.currentPageMakers = []
     this.selectedMaker = {}
     this.name = ''
+    this.abrv = ''
     this.newMakerName = null
     this.newMakerAbrv = null
     this.currentSort = null
@@ -23,6 +24,7 @@ class MakerStore {
       currentPageMakers: observable,
       selectedMaker: observable,
       name: observable,
+      abrv: observable,
       newMakerName: observable,
       newMakerAbrv: observable,
       currentSort: observable,
@@ -70,6 +72,10 @@ class MakerStore {
 
   setName (name) {
     this.name = name
+  }
+
+  setAbrv (abrv) {
+    this.abrv = abrv
   }
 
   setNewMakerName (name) {
