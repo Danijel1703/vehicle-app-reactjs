@@ -42,8 +42,7 @@ const Makers = observer(({ store }) => {
     }} />
   )
   const displayMakers = currentPageMakers?.map((maker) => (
-    <div className='car-card' key={maker.id}>
-      <img className='car-card-image' alt='Maker logo goes here'/>
+    <div className='maker-card' key={maker.id}>
       <h1>Maker: {maker.name}</h1>
       <Link to={`/makerInfo/${maker.id}`} className='more-info-button'>
         <button>More info</button>
@@ -93,7 +92,7 @@ const Makers = observer(({ store }) => {
             }}>Name</h4>
         </div>
       </div>
-      <div className='car-cards-container'>
+      <div className='maker-cards-container'>
         {displayMakers}
       </div>
       <div className='page-select'>

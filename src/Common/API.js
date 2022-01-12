@@ -2,6 +2,7 @@
 // backend koji koristi axios library za slanje CRUD requestova
 const axios = require('axios').default
 const baseUrl = 'https://api.baasic.com/beta/vehicle-app-reactjs'
+const convert = require('xml-js')
 
 class CreateAPI {
   async getAllModels (numberOfModels, sort) {
@@ -76,12 +77,13 @@ class CreateAPI {
     }
   }
 
-  async addNewModel ({ makerId, model, abrv }) {
+  async addNewModel ({ makerId, model, abrv, image }) {
     try {
       const body = {
         makeId: makerId,
         name: model,
-        abrv
+        abrv,
+        image
       }
       const response = await axios.post(`${baseUrl}/resources/VehicleModel/`, body)
     } catch (error) {
@@ -149,6 +151,17 @@ class CreateAPI {
     try {
       const response = await axios.get(`${baseUrl}/resources/VehicleMake?searchQuery=WHERE name='${input}'`)
       return response.data.item[0]
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async getModelImage (model) {
+    try {
+      const response = await axios.get(`https://www.carimagery.com/api.asmx/GetImageUrl?searchTerm=${model}+2019`)
+      const getURL = convert.xml2js(response.data)
+      const URL = getURL.elements[0].elements[0].text.replace(/^http:/, 'https:')
+      return URL
     } catch (error) {
       console.error(error)
     }

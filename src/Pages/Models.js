@@ -11,11 +11,8 @@ const Models = observer(({ store }) => {
   const allModels = store.allModels
   const currentPageModels = store.currentPageModels
   const currentSort = store.currentSort
+  // eslint-disable-next-line no-unused-vars
   const images = store.images
-
-  const importAllImages = (r) => {
-    return r.keys().map(r)
-  }
 
   const fetchAllModels = async (sort = 'name') => {
     store.setCurrentSort(sort)
@@ -39,7 +36,6 @@ const Models = observer(({ store }) => {
 
   useEffect(() => {
     fetchAllModels()
-    store.setImages(importAllImages(require.context('../Common/images/', false, /\.(png|jpe?g|svg)$/)))
   }, [])
 
   const searchBar = (
@@ -48,10 +44,9 @@ const Models = observer(({ store }) => {
     }} />
   )
   const displayModels = currentPageModels?.map((model) => {
-    const image = images.filter(image => image.includes(model.name))
     return (
         <div className='car-card' key={model.id}>
-          <img className='car-card-image' alt='Car image goes here' src={image}/>
+          <img className='car-card-image' alt='Car image goes here' src={model.image} />
           <h1>Model: {model.name}</h1>
           <Link to={`/vehicleInfo/${model.id}`} className='more-info-button'>
             <button>More info</button>
@@ -73,11 +68,10 @@ const Models = observer(({ store }) => {
   const displaySearchedItems = searchModels?.map((searchModel) => (
       <Link to={`/vehicleInfo/${searchModel?.id}`} key={searchModel.id}>
         <li>
-                {searchModel.name}
+            {searchModel.name}
         </li>
       </Link>
   ))
-
   return (
         <div className='all-vehicles'>
           <div className='filter-options'>

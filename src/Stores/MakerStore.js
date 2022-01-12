@@ -42,8 +42,14 @@ class MakerStore {
     })
   }
 
-  setNumberOfPages (numberOfModels) {
-    this.numberOfPages = Helpers.toArray(Helpers.getNumberOfPages(numberOfModels))
+  setNumberOfPages (numberOfMakers) {
+    let numberOfPages = 0
+    if (Number.isInteger(numberOfMakers / 10)) {
+      numberOfPages = numberOfMakers / 10
+    } else {
+      numberOfPages = Math.floor(numberOfMakers / 10) + 1
+    }
+    this.numberOfPages = Helpers.toArray(numberOfPages)
   }
 
   setCurrentPage (currentPage) {

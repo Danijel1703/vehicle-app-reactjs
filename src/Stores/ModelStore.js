@@ -16,7 +16,6 @@ class ModelStore {
     this.newModelName = null
     this.newModelAbrv = null
     this.currentSort = null
-    this.images = []
     makeObservable(this, {
       numberOfPages: observable,
       currentPage: observable,
@@ -31,7 +30,6 @@ class ModelStore {
       currentSort: observable,
       name: observable,
       abrv: observable,
-      images: observable,
       setNumberOfPages: action,
       setCurrentPage: action,
       setSearchModels: action,
@@ -44,13 +42,18 @@ class ModelStore {
       setNewModelAbrv: action,
       setCurrentSort: action,
       setName: action,
-      setAbrv: action,
-      setImages: action
+      setAbrv: action
     })
   }
 
   setNumberOfPages (numberOfModels) {
-    this.numberOfPages = Helpers.toArray(Helpers.getNumberOfPages(numberOfModels))
+    let numberOfPages = 0
+    if (Number.isInteger(numberOfModels / 10)) {
+      numberOfPages = numberOfModels / 10
+    } else {
+      numberOfPages = Math.floor(numberOfModels / 10) + 1
+    }
+    this.numberOfPages = Helpers.toArray(numberOfPages)
   }
 
   setCurrentPage (currentPage) {
@@ -99,10 +102,6 @@ class ModelStore {
 
   setCurrentSort (currentSort) {
     this.currentSort = currentSort
-  }
-
-  setImages (images) {
-    this.images = images
   }
 }
 

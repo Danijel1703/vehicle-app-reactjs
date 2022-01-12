@@ -71,7 +71,7 @@
     background-color: white;
 }
 
-.car-cards-container {
+.maker-cards-container {
     max-height: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -80,7 +80,7 @@
 }
 
 
-.car-card {
+.maker-card {
     height: 15rem;
     width: 12rem;
     border: 2px solid black;
@@ -91,7 +91,7 @@
     box-shadow: 0 16px 20px 0 rgba(0, 0, 0, 0.424);
 }
 
-.car-card > h1 {
+.maker-card > h1 {
     font-size: 1.2rem;
     justify-self: flex-start;
     text-shadow: 2px 2px 5px black;
@@ -100,12 +100,6 @@
     font-weight: 500;
 }
 
-.car-card-image {
-    align-self: center;
-    width: 70%;
-    height: 50%;
-    background-color: black;
-}
 
 .more-info-button {
     width: 100%;
@@ -240,7 +234,7 @@ li.active {
     }
     
 
-    .car-cards-container {
+    .maker-cards-container {
         grid-column-start: 1;
         grid-column-end: span 2;
         display: flex;
