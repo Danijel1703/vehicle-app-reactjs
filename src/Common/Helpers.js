@@ -1,12 +1,9 @@
 class CreateHelpers {
   getNumberOfPages (count) {
-    const reminder = count % 10 // %10 je tu zato sto imamo 10 elemenata po stranici
-    let pages = 0
-    if (reminder > 0) {
-      pages = Math.floor(count / 10) + 1
-      return pages
+    if (Number.isInteger(count / 10)) {
+      return count / 10
     } else {
-      return 1
+      return Math.floor(count / 10) + 1
     }
   }
 
