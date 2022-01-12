@@ -22,7 +22,6 @@ const AddNewModel = observer(({ store }) => {
     if (!makerId || !model || !abrv || makerId === 'Select maker...') {
       window.alert('All values must be filled!')
     } else {
-      // const image = await API.getModelImage(model)
       return await API.addNewModel({ makerId, model, abrv })
     }
   }
