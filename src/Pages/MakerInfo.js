@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import API from '../Common/API'
 import { observer } from 'mobx-react-lite'
 import '../EditMaker.css'
@@ -21,12 +21,18 @@ const MakerInfo = observer(({ store }) => {
     if (!name || !abrv) {
       window.alert('Unsuccessful, all values must be filled.')
     } else {
-      return await API.updateSelectedMaker(id, name, abrv)
+      await API.updateSelectedMaker(id, name, abrv)
+      if (confirm('Edit successful.')) {
+        window.location.href = '/makers'
+      }
     }
   }
 
   const deleteSelectedMaker = async (id) => {
-    return await API.deleteSelectedMaker(id)
+    await API.deleteSelectedMaker(id)
+    if (confirm('Delete successful.')) {
+      window.location.href = '/makers'
+    }
   }
 
   const deleteMakerModels = async (id) => {
@@ -50,17 +56,13 @@ const MakerInfo = observer(({ store }) => {
             <input type='text' onInput={e => { store.setAbrv(e.target.value) }} />
           </div>
           <div className='button-container'>
-            <Link to='/makers'>
-              <button className='insert-button' onClick={() => updateSelectedMaker(id, name, abrv)}>Edit</button>
-            </Link>
-            <Link to='/makers'>
-              <button
+            <button className='insert-button' onClick={() => updateSelectedMaker(id, name, abrv)}>Edit</button>
+            <button
               className='delete-button'
               onClick={() => {
                 deleteSelectedMaker(id)
                 deleteMakerModels(id)
               }}>Delete</button>
-            </Link>
           </div>
         </div>
   )

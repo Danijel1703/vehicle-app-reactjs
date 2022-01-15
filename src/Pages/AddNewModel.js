@@ -2,7 +2,6 @@ import { observer } from 'mobx-react-lite'
 import { useEffect } from 'react'
 import API from '../Common/API'
 import '../AddNewModel.css'
-import { Link } from 'react-router-dom'
 
 const AddNewModel = observer(({ store }) => {
   const makers = store.allMakers
@@ -22,7 +21,10 @@ const AddNewModel = observer(({ store }) => {
     if (!makerId || !model || !abrv || makerId === 'Select maker...') {
       window.alert('All values must be filled!')
     } else {
-      return await API.addNewModel({ makerId, model, abrv })
+      await API.addNewModel({ makerId, model, abrv })
+      if (confirm('Model added successfuly')) {
+        window.location.href = '/'
+      }
     }
   }
   const displayMakers = makers.map((maker) => ((
@@ -48,13 +50,11 @@ const AddNewModel = observer(({ store }) => {
         <input type='text' onInput={e => store.setNewModelAbrv(e.target.value) } />
       </div>
       <div className='button-container'>
-        <Link to='/'>
           <button
             className='insert-button-add'
             onClick={() => { addNewModel(selectedMaker, newModelName, newModelAbrv) }}>
               Insert
           </button>
-        </Link>
       </div>
     </div>
   )

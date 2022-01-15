@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import API from '../Common/API'
 import { observer } from 'mobx-react-lite'
 import '../EditModel.css'
@@ -18,12 +18,18 @@ const ModelInfo = observer(({ store }) => {
     if (!name || !abrv) {
       window.alert('Unsuccessful, all values must be filled.')
     } else {
-      return await API.updateSelectedModel(id, name, abrv)
+      await API.updateSelectedModel(id, name, abrv)
+      if (confirm('Edit successful.')) {
+        window.location.href = '/'
+      }
     }
   }
 
   const deleteSelectedModel = async (id) => {
-    return await API.deleteSelectedModel(id)
+    await API.deleteSelectedModel(id)
+    if (confirm('Delete successful.')) {
+      window.location.href = '/'
+    }
   }
 
   return (
@@ -39,8 +45,8 @@ const ModelInfo = observer(({ store }) => {
             <input type='text' onInput={e => { store.setAbrv(e.target.value) }} />
           </div>
           <div className='button-container'>
-            <Link to='/vehicles'><button className='insert-button' onClick={() => updateSelectedModel(id, name, abrv)}>Edit</button></Link>
-            <Link to='/vehicles'><button className='delete-button' onClick={() => deleteSelectedModel(id)}>Delete</button></Link>
+            <button className='insert-button' onClick={() => updateSelectedModel(id, name, abrv)}>Edit</button>
+            <button className='delete-button' onClick={() => deleteSelectedModel(id)}>Delete</button>
           </div>
         </div>
   )

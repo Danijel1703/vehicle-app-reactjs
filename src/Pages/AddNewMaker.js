@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import API from '../Common/API'
 import '../AddNewMaker.css'
-import { Link } from 'react-router-dom'
 
 const AddNewMaker = observer(({ store }) => {
   const newMakerName = store.newMakerName
@@ -11,7 +10,10 @@ const AddNewMaker = observer(({ store }) => {
     if (!maker || !abrv) {
       window.alert('All inputs must be filled!')
     } else {
-      return await API.addNewMaker({ maker, abrv })
+      await API.addNewMaker({ maker, abrv })
+      if (confirm('Maker added successfuly')) {
+        window.location.href = '/makers'
+      }
     }
   }
 
@@ -26,9 +28,7 @@ const AddNewMaker = observer(({ store }) => {
         <input type='text' onInput={e => store.setNewMakerAbrv(e.target.value) } />
       </div>
       <div className='button-container'>
-        <Link to='/makers'>
-          <button className='insert-button-add' onClick={() => { addNewMaker(newMakerName, newMakerAbrv) }}>Insert</button>
-        </Link>
+        <button className='insert-button-add' onClick={() => { addNewMaker(newMakerName, newMakerAbrv) }}>Insert</button>
       </div>
     </div>
   )
