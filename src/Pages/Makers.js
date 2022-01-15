@@ -11,6 +11,11 @@ const Makers = observer(({ store }) => {
   const allMakers = store.allMakers
   const currentPageMakers = store.currentPageMakers
   const currentSort = store.currentSort
+  const images = store.images
+
+  const importAllImages = (r) => {
+    return r.keys().map(r)
+  }
 
   const fetchAllMakers = async (sort = 'name') => {
     store.setCurrentSort(sort)
@@ -34,6 +39,7 @@ const Makers = observer(({ store }) => {
 
   useEffect(() => {
     fetchAllMakers()
+    store.setImages(importAllImages(require.context('../Common/images-makers/', false, /\.(png|jpe?g|svg)$/)))
   }, [])
 
   const searchBar = (
@@ -41,15 +47,19 @@ const Makers = observer(({ store }) => {
       fetchSearchInputMaker(e.target.value)
     }} />
   )
-  const displayMakers = currentPageMakers?.map((maker) => (
+  const displayMakers = currentPageMakers?.map((maker) => {
+    const image = images.filter(image => image.includes(maker.name))
+    console.log(image)
+    return (
     <div className='car-card' key={maker.id}>
-      <img className='car-card-image' alt='Maker logo goes here'/>
+      <img className='car-card-image' alt='Maker logo goes here' src={image}/>
       <h1>Maker: {maker.name}</h1>
       <Link to={`/makerInfo/${maker.id}`} className='more-info-button'>
         <button>More info</button>
       </Link>
     </div>
-  ))
+    )
+  })
   const displayPageNavigation = numberOfPages?.map((pageNumber) => (
         <li
         key={pageNumber}

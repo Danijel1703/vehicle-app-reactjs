@@ -15,6 +15,7 @@ class MakerStore {
     this.newMakerName = null
     this.newMakerAbrv = null
     this.currentSort = null
+    this.images = []
     makeObservable(this, {
       numberOfPages: observable,
       currentPage: observable,
@@ -38,7 +39,8 @@ class MakerStore {
       setNewMakerName: action,
       setNewMakerAbrv: action,
       setCurrentSort: action,
-      setName: action
+      setName: action,
+      setImages: action
     })
   }
 
@@ -88,6 +90,10 @@ class MakerStore {
 
   setCurrentSort (currentSort) {
     this.currentSort = currentSort
+  }
+
+  setImages (images) {
+    this.images = images
   }
 }
 

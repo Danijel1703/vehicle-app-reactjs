@@ -39,7 +39,7 @@ const Models = observer(({ store }) => {
 
   useEffect(() => {
     fetchAllModels()
-    store.setImages(importAllImages(require.context('../Common/images/', false, /\.(png|jpe?g|svg)$/)))
+    store.setImages(importAllImages(require.context('../Common/images-models/', false, /\.(png|jpe?g|svg)$/)))
   }, [])
 
   const searchBar = (
