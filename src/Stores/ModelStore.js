@@ -1,4 +1,4 @@
-import { observable, action, makeObservable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import Helpers from '../Common/Helpers'
 
 class ModelStore {
@@ -17,36 +17,7 @@ class ModelStore {
     this.newModelAbrv = null
     this.currentSort = null
     this.images = []
-    makeObservable(this, {
-      numberOfPages: observable,
-      currentPage: observable,
-      searchModels: observable,
-      allModels: observable,
-      allMakers: observable,
-      currentPageModels: observable,
-      selectedModel: observable,
-      selectedMaker: observable,
-      newModelName: observable,
-      newModelAbrv: observable,
-      currentSort: observable,
-      name: observable,
-      abrv: observable,
-      images: observable,
-      setNumberOfPages: action,
-      setCurrentPage: action,
-      setSearchModels: action,
-      setAllModels: action,
-      setAllMakers: action,
-      setCurrentPageModels: action,
-      setSelectedModel: action,
-      setSelectedMaker: action,
-      setNewModelName: action,
-      setNewModelAbrv: action,
-      setCurrentSort: action,
-      setName: action,
-      setAbrv: action,
-      setImages: action
-    })
+    makeAutoObservable(this)
   }
 
   setNumberOfPages (numberOfModels) {
