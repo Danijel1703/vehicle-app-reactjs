@@ -3,9 +3,11 @@ import '../Makers.css'
 import API from '../Common/API'
 import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
+import Pagination from '../Components/Pagination'
+import PagingStore from '../Stores/PagingStore'
 
 const Makers = observer(({ store }) => {
-  const numberOfPages = store.numberOfPages
+  // const numberOfPages = store.numberOfPages
   const currentPage = store.currentPage
   const searchMakers = store.searchMakers
   const allMakers = store.allMakers
@@ -60,17 +62,17 @@ const Makers = observer(({ store }) => {
     </div>
     )
   })
-  const displayPageNavigation = numberOfPages?.map((pageNumber) => (
-        <li
-        key={pageNumber}
-        className={pageNumber === store.currentPage ? 'active' : ''}
-        onClick={() => {
-          store.setCurrentPage(pageNumber)
-          store.setCurrentPageModels(allMakers.filter(maker => maker.page === pageNumber))
-        }}>
-            {pageNumber}
-        </li>
-  ))
+  // const displayPageNavigation = numberOfPages?.map((pageNumber) => (
+  //       <li
+  //       key={pageNumber}
+  //       className={pageNumber === store.currentPage ? 'active' : ''}
+  //       onClick={() => {
+  //         store.setCurrentPage(pageNumber)
+  //         store.setCurrentPageModels(allMakers.filter(maker => maker.page === pageNumber))
+  //       }}>
+  //           {pageNumber}
+  //       </li>
+  // ))
   const displaySearchedItems = searchMakers?.map((searchMaker) => (
     <Link to={`/makerInfo/${searchMaker?.id}`} key={searchMaker.id}>
       <li>
@@ -106,11 +108,12 @@ const Makers = observer(({ store }) => {
       <div className='car-cards-container'>
         {displayMakers}
       </div>
-      <div className='page-select'>
+      {/* <div className='page-select'>
         <ul>
           {displayPageNavigation}
         </ul>
-        </div>
+      </div> */}
+      <Pagination store = {PagingStore} pageName = 'makers' />
     </div>
   )
 })
