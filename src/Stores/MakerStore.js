@@ -1,10 +1,8 @@
-import { makeAutoObservable } from 'mobx'
-import Helpers from '../Common/Helpers'
+import { action, makeObservable, observable } from 'mobx'
+import VehicleMakeService from '../Common/VehicleMakeService'
 
 class MakerStore {
   constructor () {
-    this.numberOfPages = []
-    this.currentPage = 1
     this.searchMakers = null
     this.allModels = []
     this.allMakers = []
@@ -16,15 +14,16 @@ class MakerStore {
     this.newMakerAbrv = null
     this.currentSort = null
     this.images = []
-    makeAutoObservable(this)
+    makeObservable(this, {
+      currentPageMakers: observable,
+      setCurrentPageMakers: action
+    })
   }
 
-  setNumberOfPages (numberOfModels) {
-    this.numberOfPages = Helpers.toArray(Helpers.getNumberOfPages(numberOfModels))
-  }
-
-  setCurrentPage (currentPage) {
-    this.currentPage = currentPage
+  async fetchCurrentPageMakers (currentPage, sort = 'name') {
+    const currentPageMakers = await VehicleMakeService.getCurrentPageMakers(currentPage, sort)
+    console.log(currentPageMakers)
+    this.setCurrentPageMakers(currentPageMakers)
   }
 
   setSearchMakers (maker) {

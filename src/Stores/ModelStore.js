@@ -1,10 +1,7 @@
 import { makeAutoObservable } from 'mobx'
-import Helpers from '../Common/Helpers'
 
 class ModelStore {
   constructor () {
-    this.numberOfPages = []
-    this.currentPage = 1
     this.searchModels = []
     this.allModels = []
     this.allMakers = []
@@ -18,14 +15,6 @@ class ModelStore {
     this.currentSort = null
     this.images = []
     makeAutoObservable(this)
-  }
-
-  setNumberOfPages (numberOfModels) {
-    this.numberOfPages = Helpers.toArray(Helpers.getNumberOfPages(numberOfModels))
-  }
-
-  setCurrentPage (currentPage) {
-    this.currentPage = currentPage
   }
 
   setSearchModels (models) {
