@@ -23,7 +23,8 @@ class CreateVehicleMakeService {
 
   async getCurrentPageMakers (currentPage, sort) {
     try {
-      const response = await axios.get(`${baseUrl}/resources/VehicleMakers?page=${currentPage}&rpp=10&sort=${sort}`)
+      const response = await axios.get(`${baseUrl}/resources/VehicleMake?page=${currentPage}&rpp=10&sort=${sort}`)
+      console.log(response)
       return response.data.item
     } catch (error) {
       console.error(error)

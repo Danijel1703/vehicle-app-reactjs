@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from 'mobx'
 import VehicleMakeService from '../Common/VehicleMakeService'
+import VehicleModelService from '../Common/VehicleModelService'
 import Helpers from '../Common/Helpers'
 
 class PagingStore {
@@ -9,7 +10,8 @@ class PagingStore {
     makeObservable(this, {
       currentPage: observable,
       numberOfPages: observable,
-      setNumberOfPages: action
+      setNumberOfPages: action,
+      setCurrentPage: action
     })
   }
 
@@ -18,7 +20,7 @@ class PagingStore {
     if (pageName === 'makers') {
       numberOfElements = await VehicleMakeService.getNumberOfMakers()
     } else if (pageName === 'models') {
-      numberOfElements = await VehicleMakeService.getNumberOfModels()
+      numberOfElements = await VehicleModelService.getNumberOfModels()
     }
     const numberOfPages = Helpers.toArray(Helpers.getNumberOfPages(numberOfElements))
     this.setNumberOfPages(numberOfPages)
