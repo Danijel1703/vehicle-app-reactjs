@@ -1,23 +1,33 @@
 import { useEffect } from 'react'
 import '../Makers.css'
+import API from '../Common/API'
 import { Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
-import Pagination from '../Components/Pagination'
-import PagingStore from '../Stores/PagingStore'
 
 const Makers = observer(({ store }) => {
-  const currentPage = PagingStore.currentPage
+  const numberOfPages = store.numberOfPages
+  const currentPage = store.currentPage
   const searchMakers = store.searchMakers
   const allMakers = store.allMakers
   const currentPageMakers = store.currentPageMakers
   const currentSort = store.currentSort
   const images = store.images
 
-  console.log(currentPage)
   const importAllImages = (r) => {
     return r.keys().map(r)
   }
 
+  const fetchAllMakers = async (sort = 'name') => {
+    store.setCurrentSort(sort)
+    const numberOfMakers = await API.getNumberOfMakers()
+    store.setNumberOfPages(numberOfMakers)
+    const makers = await API.getAllMakers(numberOfMakers, sort)
+    makers.forEach((maker) => {
+      maker.page = Math.floor(makers.indexOf(maker) / 10) + 1
+    })
+    store.setAllMakers(makers)
+    store.setCurrentPageMakers(makers.filter(maker => maker.page === currentPage))
+  }
   const fetchSearchInputMaker = async (input) => {
     const inputUpperCase = input.toUpperCase()
     if (input !== '') {
@@ -28,8 +38,8 @@ const Makers = observer(({ store }) => {
   }
 
   useEffect(() => {
+    fetchAllMakers()
     store.setImages(importAllImages(require.context('../Common/images-makers/', false, /\.(png|jpe?g|svg)$/)))
-    store.fetchCurrentPageMakers(currentPage)
   }, [])
 
   const searchBar = (
@@ -39,6 +49,7 @@ const Makers = observer(({ store }) => {
   )
   const displayMakers = currentPageMakers?.map((maker) => {
     const image = images.filter(image => image.includes(maker.name))
+    console.log(image)
     return (
     <div className='car-card' key={maker.id}>
       <img className='car-card-image' alt='Maker logo goes here' src={image}/>
@@ -49,6 +60,17 @@ const Makers = observer(({ store }) => {
     </div>
     )
   })
+  const displayPageNavigation = numberOfPages?.map((pageNumber) => (
+        <li
+        key={pageNumber}
+        className={pageNumber === store.currentPage ? 'active' : ''}
+        onClick={() => {
+          store.setCurrentPage(pageNumber)
+          store.setCurrentPageModels(allMakers.filter(maker => maker.page === pageNumber))
+        }}>
+            {pageNumber}
+        </li>
+  ))
   const displaySearchedItems = searchMakers?.map((searchMaker) => (
     <Link to={`/makerInfo/${searchMaker?.id}`} key={searchMaker.id}>
       <li>
@@ -72,17 +94,23 @@ const Makers = observer(({ store }) => {
             <h4
             className={currentSort === 'id' ? 'active' : ''}
             onClick={() => {
+              fetchAllMakers('id')
             }}>id</h4>
             <h4
             className={currentSort === 'name' ? 'active' : ''}
             onClick={() => {
+              fetchAllMakers('name')
             }}>Name</h4>
         </div>
       </div>
       <div className='car-cards-container'>
         {displayMakers}
       </div>
-      <Pagination store = {PagingStore} pageName = 'makers' />
+      <div className='page-select'>
+        <ul>
+          {displayPageNavigation}
+        </ul>
+        </div>
     </div>
   )
 })
