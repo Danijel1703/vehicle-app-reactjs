@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react'
 import PagingStore from '../Stores/PagingStore'
+import '../Sort.css'
 
 const Sort = observer(({ store, pageName }) => {
   const currentSort = store.currentSort

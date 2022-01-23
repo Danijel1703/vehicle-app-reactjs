@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import '../SearchBar.css'
 
 const SearchBar = observer(({ store, pageName }) => {
   useEffect(() => {

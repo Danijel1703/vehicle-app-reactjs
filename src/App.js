@@ -15,6 +15,8 @@ import ModelInfo from './Pages/ModelInfo'
 import Models from './Pages/Models'
 import EditModelStore from './Stores/EditModelStore'
 import EditMakerStore from './Stores/EditMakerStore'
+import AddNewMakerStore from './Stores/AddNewMakerStore'
+import AddNewModelStore from './Stores/AddNewModelStore'
 
 const App = () => {
   return (
@@ -24,8 +26,8 @@ const App = () => {
             <Route path='/' element={ <Models store = {ModelStore} /> } />
             <Route path='/vehicles' element={<Models store = {ModelStore} />} />
             <Route path='/makers' element={<Makers store = {MakerStore} />} />
-            <Route path='/addNewModel' element={<AddNewModel store = {ModelStore} />} />
-            <Route path='/addNewMaker' element= { <AddNewMaker store = {MakerStore} /> } />
+            <Route path='/addNewModel' element={<AddNewModel store = {AddNewModelStore} />} />
+            <Route path='/addNewMaker' element= { <AddNewMaker store = {AddNewMakerStore} /> } />
             <Route path='/vehicleInfo/:id' element={<ModelInfo store = {EditModelStore} />}/>
             <Route path='/makerInfo/:id' element={<MakerInfo store = {EditMakerStore} />}/>
         </Routes>

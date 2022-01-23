@@ -28,26 +28,6 @@ class MakerStore {
     this.currentPageMakers = makers
   }
 
-  setSelectedMaker (maker) {
-    this.selectedMaker = maker
-  }
-
-  setName (name) {
-    this.name = name
-  }
-
-  setAbrv (abrv) {
-    this.abrv = abrv
-  }
-
-  setNewMakerName (name) {
-    this.newMakerName = name
-  }
-
-  setNewMakerAbrv (abrv) {
-    this.newMakerAbrv = abrv
-  }
-
   setCurrentSort (currentSort) {
     this.currentSort = currentSort
   }

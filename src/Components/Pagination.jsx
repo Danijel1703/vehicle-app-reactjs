@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'react'
-import '../Makers.css'
+import '../Pagination.css'
 import VehicleMakeStore from '../Stores/MakerStore'
 import VehicleModelStore from '../Stores/ModelStore'
 

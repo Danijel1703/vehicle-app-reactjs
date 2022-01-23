@@ -26,8 +26,8 @@ const Makers = observer(({ store }) => {
   const displayMakers = currentPageMakers?.map((maker) => {
     const image = images.filter(image => image.includes(maker.name))
     return (
-    <div className='car-card' key={maker.id}>
-      <img className='car-card-image' alt='Maker logo goes here' src={image}/>
+    <div className='maker-card' key={maker.id}>
+      <img className='maker-card-image' alt='Maker logo goes here' src={image}/>
       <h1>Maker: {maker.name}</h1>
       <Link to={`/makerInfo/${maker.id}`} className='more-info-button'>
         <button>More info</button>
@@ -37,12 +37,12 @@ const Makers = observer(({ store }) => {
   })
 
   return (
-    <div className='all-vehicles'>
+    <div className='all-makers'>
       <div className='filter-options'>
         <SearchBar store={SearchBarStore} pageName='makers' />
         <Sort store={MakerStore} pageName='makers' />
       </div>
-      <div className='car-cards-container'>
+      <div className='maker-cards-container'>
         {displayMakers}
       </div>
       <Pagination store = {PagingStore} pageName = 'makers' />

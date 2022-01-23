@@ -4,9 +4,6 @@ import VehicleModelService from '../Common/VehicleModelService'
 class ModelStore {
   constructor () {
     this.currentPageModels = []
-    this.selectedMaker = null
-    this.newModelName = null
-    this.newModelAbrv = null
     this.currentSort = 'name'
     this.images = []
     makeObservable(this, {
@@ -24,18 +21,6 @@ class ModelStore {
 
   setCurrentPageModels (models) {
     this.currentPageModels = models
-  }
-
-  setSelectedMaker (id) {
-    this.selectedMaker = id
-  }
-
-  setNewModelName (name) {
-    this.newModelName = name
-  }
-
-  setNewModelAbrv (abrv) {
-    this.newModelAbrv = abrv
   }
 
   setCurrentSort (currentSort) {
