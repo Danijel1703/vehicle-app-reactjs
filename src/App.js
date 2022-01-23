@@ -13,6 +13,8 @@ import Makers from './Pages/Makers'
 import MakerInfo from './Pages/MakerInfo'
 import ModelInfo from './Pages/ModelInfo'
 import Models from './Pages/Models'
+import EditModelStore from './Stores/EditModelStore'
+import EditMakerStore from './Stores/EditMakerStore'
 
 const App = () => {
   return (
@@ -24,8 +26,8 @@ const App = () => {
             <Route path='/makers' element={<Makers store = {MakerStore} />} />
             <Route path='/addNewModel' element={<AddNewModel store = {ModelStore} />} />
             <Route path='/addNewMaker' element= { <AddNewMaker store = {MakerStore} /> } />
-            <Route path='/vehicleInfo/:id' element={<ModelInfo store = {ModelStore} />}/>
-            <Route path='/makerInfo/:id' element={<MakerInfo store = {MakerStore} />}/>
+            <Route path='/vehicleInfo/:id' element={<ModelInfo store = {EditModelStore} />}/>
+            <Route path='/makerInfo/:id' element={<MakerInfo store = {EditMakerStore} />}/>
         </Routes>
       </Layout>
     </>

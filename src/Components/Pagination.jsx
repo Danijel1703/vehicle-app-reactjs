@@ -1,6 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'react'
 import '../Makers.css'
+import VehicleMakeStore from '../Stores/MakerStore'
+import VehicleModelStore from '../Stores/ModelStore'
 
 const Pagination = observer(({ store, pageName }) => {
   useEffect(() => {
@@ -18,9 +20,18 @@ const Pagination = observer(({ store, pageName }) => {
                     className={pageNumber === store.currentPage ? 'active' : ''}
                     onClick={() => {
                       store.setCurrentPage(pageNumber)
+                      switch (pageName) {
+                        case 'makers' : {
+                          VehicleMakeStore.fetchCurrentPageMakers(pageNumber)
+                          break
+                        }
+                        case 'models' : {
+                          VehicleModelStore.fetchCurrentPageModels(pageNumber)
+                          break
+                        }
+                      }
                     }}>
                     {pageNumber}
-                    {console.log(store.currentPage)}
                 </li>
             ))
           }
