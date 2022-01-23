@@ -1,0 +1,40 @@
+.sort-by {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    color: white;
+    text-shadow: 2px 2px 5px black;
+}
+
+.sort-by > h3 {
+    margin-left: 5%;
+}
+
+.sort-by > h4 {
+    align-self: flex-end;
+    margin-right: 5%;
+}
+
+.sort-by > h4:hover {
+    color: #BF1D28;
+    transition: 0.3s;
+}
+
+h4.active {
+    color: #BF1D28;
+}
+
+li.active {
+    background-color: black;
+    color: white;
+}
+
+@media screen and (max-width: 1100px) {
+    .sort-by {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    
+}

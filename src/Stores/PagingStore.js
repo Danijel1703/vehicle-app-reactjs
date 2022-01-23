@@ -28,7 +28,6 @@ class PagingStore {
 
   setNumberOfPages (array) {
     this.numberOfPages = array
-    console.log(this.numberOfPages)
   }
 
   setCurrentPage (currentPage) {

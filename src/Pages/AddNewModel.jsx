@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'react'
-import API from '../Common/API'
 import '../AddNewModel.css'
 
 const AddNewModel = observer(({ store }) => {
@@ -10,36 +9,22 @@ const AddNewModel = observer(({ store }) => {
   const newModelAbrv = store.newModelAbrv
 
   useEffect(() => {
-    fetchAllMakers()
+    store.fetchAllMakers()
   }, [])
-
-  const fetchAllMakers = async () => {
-    const numberOfMakers = await API.getNumberOfMakers()
-    store.setAllMakers(await API.getAllMakers(numberOfMakers))
-  }
-  const addNewModel = async (makerId, model, abrv) => {
-    if (!makerId || !model || !abrv || makerId === 'Select maker...') {
-      window.alert('All values must be filled!')
-    } else {
-      await API.addNewModel({ makerId, model, abrv })
-      if (confirm('Model added successfuly')) {
-        window.location.href = '/'
-      }
-    }
-  }
-  const displayMakers = makers.map((maker) => ((
-      <option
-        value={maker.id}
-        key={maker.id}>
-        {maker.name}
-      </option>
-  )))
 
   return (
     <div className='add-new-form'>
       <select className='select-maker' onChange={e => store.setSelectedMaker(e.target.value)}>
         <option value='Select maker...'>Select maker...</option>
-        {displayMakers}
+        {
+          makers.map((maker) => ((
+            <option
+              value={maker.id}
+              key={maker.id}>
+              {maker.name}
+            </option>
+          )))
+        }
       </select>
       <div className='text-input'>
         <h2>Name: </h2>
@@ -52,7 +37,7 @@ const AddNewModel = observer(({ store }) => {
       <div className='button-container'>
           <button
             className='insert-button-add'
-            onClick={() => { addNewModel(selectedMaker, newModelName, newModelAbrv) }}>
+            onClick={() => { store.addNewModel(selectedMaker, newModelName, newModelAbrv) }}>
               Insert
           </button>
       </div>

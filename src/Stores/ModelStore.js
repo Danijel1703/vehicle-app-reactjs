@@ -1,60 +1,26 @@
-import { makeAutoObservable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
+import VehicleModelService from '../Common/VehicleModelService'
 
 class ModelStore {
   constructor () {
-    this.searchModels = []
-    this.allModels = []
-    this.allMakers = []
     this.currentPageModels = []
-    this.selectedModel = {}
-    this.selectedMaker = null
-    this.name = ''
-    this.abrv = ''
-    this.newModelName = null
-    this.newModelAbrv = null
-    this.currentSort = null
+    this.currentSort = 'name'
     this.images = []
-    makeAutoObservable(this)
+    makeObservable(this, {
+      currentPageModels: observable,
+      currentSort: observable,
+      setCurrentPageModels: action,
+      setCurrentSort: action
+    })
   }
 
-  setSearchModels (models) {
-    this.searchModels = models
-  }
-
-  setAllModels (models) {
-    this.allModels = models
-  }
-
-  setAllMakers (makers) {
-    this.allMakers = makers
+  async fetchCurrentPageModels (currentPage, sort = 'name') {
+    const currentPageMakers = await VehicleModelService.getCurrentPageModels(currentPage, sort)
+    this.setCurrentPageModels(currentPageMakers)
   }
 
   setCurrentPageModels (models) {
     this.currentPageModels = models
-  }
-
-  setSelectedModel (model) {
-    this.selectedModel = model
-  }
-
-  setSelectedMaker (id) {
-    this.selectedMaker = id
-  }
-
-  setName (name) {
-    this.name = name
-  }
-
-  setAbrv (abrv) {
-    this.abrv = abrv
-  }
-
-  setNewModelName (name) {
-    this.newModelName = name
-  }
-
-  setNewModelAbrv (abrv) {
-    this.newModelAbrv = abrv
   }
 
   setCurrentSort (currentSort) {
