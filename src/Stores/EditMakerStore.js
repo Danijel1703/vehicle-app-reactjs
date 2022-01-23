@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from 'mobx'
 import VehicleMakeService from '../Common/VehicleMakeService'
+import VehicleModelService from '../Common/VehicleModelService'
 
 class EditMakerStore {
   constructor () {
@@ -46,6 +47,13 @@ class EditMakerStore {
 
   async deleteSelectedMaker (id) {
     await VehicleMakeService.deleteSelectedMaker(id)
+    const numberOfModels = await VehicleModelService.getNumberOfModels()
+    const allModels = await VehicleModelService.getAllModels(numberOfModels)
+    allModels.forEach(async model => {
+      if (model.makeId === id) {
+        await VehicleMakeService.deleteMakerModel(model.id)
+      }
+    })
     if (confirm('Delete successful.')) {
       window.location.href = '/makers'
     }
