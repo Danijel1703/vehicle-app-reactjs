@@ -1,21 +1,24 @@
-import { action, makeObservable, observable } from 'mobx'
+import { action, autorun, makeObservable, observable } from 'mobx'
 import VehicleModelService from '../Common/VehicleModelService'
 import VehicleMakeService from '../Common/VehicleMakeService'
+import MobxReactForm from 'mobx-react-form'
+import dvr from 'mobx-react-form/lib/validators/DVR'
+import validatorjs from 'validatorjs'
+import { toast } from 'react-toastify'
 
 class AddNewModelStore {
   constructor () {
-    this.selectedMaker = []
-    this.newModelName = null
-    this.newModelAbrv = null
     this.allMakers = []
+    this.form = null
     makeObservable(this, {
-      newModelName: observable,
-      newModelAbrv: observable,
       allMakers: observable,
-      setSelectedMaker: action,
-      setNewModelName: action,
-      setNewModelAbrv: action,
-      setAllMakers: action
+      form: observable,
+      setAllMakers: action,
+      createNewForm: action
+    })
+    autorun(() => {
+      this.createNewForm()
+      this.fetchAllMakers()
     })
   }
 
@@ -25,31 +28,44 @@ class AddNewModelStore {
     this.setAllMakers(allMakers)
   }
 
-  setSelectedMaker (id) {
-    this.selectedMaker = id
-  }
-
-  setNewModelName (name) {
-    this.newModelName = name
-  }
-
-  setNewModelAbrv (abrv) {
-    this.newModelAbrv = abrv
-  }
-
   setAllMakers (makers) {
     this.allMakers = makers
   }
 
-  async addNewModel (makerId, model, abrv) {
-    if (!makerId || !model || !abrv || makerId === 'Select maker...') {
-      window.alert('All values must be filled!')
-    } else {
-      await VehicleModelService.addNewModel({ makerId, model, abrv })
-      if (confirm('Model added successfuly')) {
-        window.location.href = '/'
+  createNewForm () {
+    const fields = [{
+      name: 'maker',
+      label: 'Maker',
+      rules: 'required|string'
+    }, {
+      name: 'name',
+      label: 'Name',
+      placeholder: 'Insert new model name...',
+      rules: 'required|string|between: 2,25'
+    }]
+
+    const plugins = {
+      dvr: dvr(validatorjs)
+    }
+
+    const hooks = {
+      async onSuccess (form) {
+        const values = form.values()
+        const maker = values.maker
+        const model = values.name
+        const abrv = model // temporary
+        const data = { makerId: maker, model: model, abrv: abrv }
+        await VehicleModelService.addNewModel(data)
+        toast.success('Model added successfully')
+        form.clear()
+      },
+      onError (form) {
+        toast.error('Model add unsuccessful')
       }
     }
+
+    const form = new MobxReactForm({ fields }, { plugins, hooks })
+    this.form = form
   }
 }
 

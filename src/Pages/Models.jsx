@@ -8,6 +8,7 @@ import SearchBar from '../Components/SearchBar'
 import SearchBarStore from '../Stores/SearchBarStore'
 import ModelStore from '../Stores/ModelStore'
 import Sort from '../Components/Sort'
+import Filter from './Filter'
 
 const Models = observer(({ store }) => {
   const currentPage = PagingStore.currentPage
@@ -40,6 +41,7 @@ const Models = observer(({ store }) => {
           <div className='filter-options'>
             <SearchBar store={SearchBarStore} pageName='models' />
             <Sort store={ModelStore} pageName='models' />
+            <Filter store={ModelStore} />
           </div>
           <div className='car-cards-container'>
             {displayModels}
