@@ -8,6 +8,7 @@
     padding-bottom: 5%;
     background-color: #2A9DDB;
     border-bottom: 2px solid black;
+    z-index: 100;
 }
 
 .search-bar > * {
