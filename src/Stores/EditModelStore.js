@@ -73,7 +73,6 @@ class EditModelStore {
         }
       },
       onError (form) {
-        console.log(form.values())
         toast.error('Model edit unsuccessful')
       }
     }

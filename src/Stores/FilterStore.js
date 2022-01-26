@@ -15,7 +15,6 @@ class FilterStore {
   }
 
   async setAllMakers () {
-    console.log('ruuuuuun')
     const numberOfMakers = await VehicleMakeService.getNumberOfMakers()
     const allMakers = await VehicleMakeService.getAllMakers(numberOfMakers)
     runInAction(() => {

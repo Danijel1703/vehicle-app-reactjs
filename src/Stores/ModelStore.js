@@ -27,7 +27,6 @@ class ModelStore {
   async fetchCurrentPageModels (currentPage, sort = 'name') {
     const currentPageModels = await VehicleModelService.getCurrentPageModels(currentPage, sort)
     const filteredModels = currentPageModels.filter(model => this.whitelist.includes(model.makeId))
-    console.log(filteredModels)
     this.whitelist.length > 0 ? this.setCurrentPageModels(filteredModels) : this.setCurrentPageModels(currentPageModels)
   }
 
@@ -49,11 +48,9 @@ class ModelStore {
 
   setFilterMaker (whitelist) {
     this.filterMakers = whitelist
-    console.log(this.filterMakers)
   }
 
   async setAllMakers () {
-    console.log('ruuuuuun')
     const numberOfMakers = await VehicleMakeService.getNumberOfMakers()
     const allMakers = await VehicleMakeService.getAllMakers(numberOfMakers)
     runInAction(() => {

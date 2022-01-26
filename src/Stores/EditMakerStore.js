@@ -66,7 +66,6 @@ class EditMakerStore {
           const allModels = await VehicleModelService.getAllModels(numberOfModels)
           allModels.forEach(async (model) => {
             if (model.makeId === id) {
-              console.log(model.makeId, id)
               await VehicleMakeService.deleteMakerModel(model.id)
             }
           })
@@ -82,7 +81,6 @@ class EditMakerStore {
         }
       },
       onError (form) {
-        console.log(form.values())
         toast.error('Maker edit unsuccessful')
       }
     }

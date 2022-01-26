@@ -30,7 +30,7 @@ class PagingStore {
     this.numberOfPages = array
   }
 
-  setCurrentPage (currentPage) {
+  setCurrentPage (currentPage = 1) {
     this.currentPage = currentPage
   }
 }
