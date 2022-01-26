@@ -1,35 +1,51 @@
-import { action, makeObservable, observable } from 'mobx'
+import { action, autorun, makeObservable, observable } from 'mobx'
 import VehicleMakeService from '../Common/VehicleMakeService'
+import MobxReactForm from 'mobx-react-form'
+import dvr from 'mobx-react-form/lib/validators/DVR'
+import validatorjs from 'validatorjs'
+import { toast } from 'react-toastify'
 
 class AddNewMakerStore {
   constructor () {
-    this.newMakerName = null
-    this.newMakerAbrv = null
+    this.form = null
     makeObservable(this, {
-      newMakerName: observable,
-      newMakerAbrv: observable,
-      setNewMakerName: action,
-      setNewMakerAbrv: action
+      form: observable,
+      createNewForm: action
+    })
+    autorun(() => {
+      this.createNewForm()
     })
   }
 
-  setNewMakerName (name) {
-    this.newMakerName = name
-  }
+  createNewForm () {
+    const fields = [{
+      name: 'name',
+      label: 'Name:',
+      placeholder: 'Insert new maker name...',
+      rules: 'required|string|between: 2,25'
+    }]
 
-  setNewMakerAbrv (abrv) {
-    this.newMakerAbrv = abrv
-  }
+    const plugins = {
+      dvr: dvr(validatorjs)
+    }
 
-  async addNewMaker (maker, abrv) {
-    if (!maker || !abrv) {
-      window.alert('All inputs must be filled!')
-    } else {
-      await VehicleMakeService.addNewMaker({ maker, abrv })
-      if (confirm('Maker added successfuly')) {
-        window.location.href = '/makers'
+    const hooks = {
+      async onSuccess (form) {
+        const values = form.values()
+        const name = values.name
+        const abrv = name // temporary
+        const data = { maker: name, abrv: abrv }
+        await VehicleMakeService.addNewMaker(data)
+        toast.success('Maker added successfully')
+        form.clear()
+      },
+      onError (form) {
+        toast.error('Maker add unsuccessful')
       }
     }
+
+    const form = new MobxReactForm({ fields }, { plugins, hooks })
+    this.form = form
   }
 }
 

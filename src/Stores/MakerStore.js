@@ -4,18 +4,16 @@ import VehicleMakeService from '../Common/VehicleMakeService'
 class MakerStore {
   constructor () {
     this.currentPageMakers = []
-    this.selectedMaker = {}
-    this.name = ''
-    this.abrv = ''
-    this.newMakerName = null
-    this.newMakerAbrv = null
     this.currentSort = 'name'
     this.images = []
+    this.sortDropdown = false
     makeObservable(this, {
       currentPageMakers: observable,
       currentSort: observable,
+      sortDropdown: observable,
       setCurrentPageMakers: action,
-      setCurrentSort: action
+      setCurrentSort: action,
+      toggleSortDropdown: action
     })
   }
 
@@ -34,6 +32,10 @@ class MakerStore {
 
   setImages (images) {
     this.images = images
+  }
+
+  toggleSortDropdown () {
+    this.sortDropdown = !this.sortDropdown
   }
 }
 

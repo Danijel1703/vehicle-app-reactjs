@@ -1,0 +1,31 @@
+.filter {
+    background-color: white;
+    width: 100%;
+    border-bottom: 2px solid black;
+}
+
+.filter > h3 {
+    margin-left: 2%;
+}
+
+.filter-list {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.filter-list > li {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.filter-list > li > p {
+    justify-self: flex-start;
+}
+
+.filter-list > li > input {
+    margin-left: auto;
+    margin-right: 5%;
+}

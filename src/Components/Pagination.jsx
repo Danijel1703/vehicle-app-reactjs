@@ -9,6 +9,7 @@ const Pagination = observer(({ store, pageName }) => {
     store.fetchNumberOfPages(pageName)
   }, [])
   const numberOfPages = store.numberOfPages
+  const currentPage = store.currentPage
 
   return (
     <div className='page-select'>
@@ -17,7 +18,7 @@ const Pagination = observer(({ store, pageName }) => {
             numberOfPages?.map((pageNumber) => (
                 <li
                     key={pageNumber}
-                    className={pageNumber === store.currentPage ? 'active' : ''}
+                    className={pageNumber === currentPage ? 'active' : ''}
                     onClick={() => {
                       store.setCurrentPage(pageNumber)
                       switch (pageName) {

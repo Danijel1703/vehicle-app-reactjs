@@ -6,12 +6,6 @@
     align-items: center;
 }
 
-.select-maker:hover, .select-maker:focus {
-    outline: none;
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.424);
-    transition: 0.3s;
-}
-
 .text-input {
     display: flex;
     flex-direction: column;
@@ -24,9 +18,18 @@
 }
 
 .text-input > input:hover, input:focus {
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.424);
+    box-shadow: 0 2.5px 5px 0 rgba(0, 0, 0, 0.424);
     transition: 0.3s;
     outline: none;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 5%;
+}
+
+.form-p-error {
+    color: red;
 }
 
 .button-container {
@@ -43,11 +46,29 @@
     background-color: green;
     border: 1px solid green;
     cursor: pointer;
+    margin-right: 5%;
 }
 
 .insert-button-add:hover {
     background-color: white;
     border-color: green;
+    color: black;
+    transition: 0.3s;
+}
+
+.clear-button {
+    width: 5rem;
+    height: 2rem;
+    border: none;
+    color: white;
+    background-color: #BF1D28;
+    border: 1px solid #BF1D28;
+    cursor: pointer;
+}
+
+.clear-button:hover {
+    background-color: white;
+    border-color: #BF1D28;
     color: black;
     transition: 0.3s;
 }

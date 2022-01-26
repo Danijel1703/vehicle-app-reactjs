@@ -1,22 +1,34 @@
-import { action, makeObservable, observable } from 'mobx'
+import { action, makeObservable, observable, runInAction } from 'mobx'
 import VehicleModelService from '../Common/VehicleModelService'
+import VehicleMakeService from '../Common/VehicleMakeService'
 
 class ModelStore {
   constructor () {
     this.currentPageModels = []
     this.currentSort = 'name'
     this.images = []
+    this.sortDropdown = false
+    this.whitelist = []
+    this.allMakers = []
     makeObservable(this, {
       currentPageModels: observable,
       currentSort: observable,
+      sortDropdown: observable,
+      allMakers: observable,
+      whitelist: observable,
+      setAllMakers: action,
+      setWhitelist: action,
       setCurrentPageModels: action,
-      setCurrentSort: action
+      setCurrentSort: action,
+      toggleSortDropdown: action
     })
   }
 
   async fetchCurrentPageModels (currentPage, sort = 'name') {
-    const currentPageMakers = await VehicleModelService.getCurrentPageModels(currentPage, sort)
-    this.setCurrentPageModels(currentPageMakers)
+    const currentPageModels = await VehicleModelService.getCurrentPageModels(currentPage, sort)
+    const filteredModels = currentPageModels.filter(model => this.whitelist.includes(model.makeId))
+    console.log(filteredModels)
+    this.whitelist.length > 0 ? this.setCurrentPageModels(filteredModels) : this.setCurrentPageModels(currentPageModels)
   }
 
   setCurrentPageModels (models) {
@@ -29,6 +41,35 @@ class ModelStore {
 
   setImages (images) {
     this.images = images
+  }
+
+  toggleSortDropdown () {
+    this.sortDropdown = !this.sortDropdown
+  }
+
+  setFilterMaker (whitelist) {
+    this.filterMakers = whitelist
+    console.log(this.filterMakers)
+  }
+
+  async setAllMakers () {
+    console.log('ruuuuuun')
+    const numberOfMakers = await VehicleMakeService.getNumberOfMakers()
+    const allMakers = await VehicleMakeService.getAllMakers(numberOfMakers)
+    runInAction(() => {
+      this.allMakers = allMakers
+    })
+  }
+
+  setWhitelist (event, makeId, currentPage) {
+    const checked = event.target.checked
+    if (checked) {
+      this.whitelist.push(makeId)
+    } else {
+      const filteredWhitelist = this.whitelist.filter(id => id !== makeId)
+      this.whitelist = filteredWhitelist
+    }
+    this.fetchCurrentPageModels(currentPage)
   }
 }
 
