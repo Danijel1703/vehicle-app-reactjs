@@ -1,6 +1,5 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import VehicleMakeService from '../Common/VehicleMakeService'
-import ModelStore from './ModelStore'
 
 class FilterStore {
   constructor () {
@@ -29,7 +28,6 @@ class FilterStore {
     } else {
       const filteredWhitelist = this.whitelist.filter(id => id !== makeId)
       this.whitelist = filteredWhitelist
-      ModelStore.setFilterMaker(this.whitelist)
     }
   }
 }

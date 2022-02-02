@@ -8,26 +8,33 @@ class ModelStore {
     this.currentSort = 'name'
     this.images = []
     this.sortDropdown = false
-    this.whitelist = []
+    this.whitelist = null
     this.allMakers = []
+    this.filterId = null
     makeObservable(this, {
       currentPageModels: observable,
       currentSort: observable,
       sortDropdown: observable,
       allMakers: observable,
       whitelist: observable,
+      filterId: observable,
       setAllMakers: action,
       setWhitelist: action,
       setCurrentPageModels: action,
       setCurrentSort: action,
-      toggleSortDropdown: action
+      toggleSortDropdown: action,
+      setFilterId: action
     })
   }
 
-  async fetchCurrentPageModels (currentPage, sort = 'name') {
-    const currentPageModels = await VehicleModelService.getCurrentPageModels(currentPage, sort)
-    const filteredModels = currentPageModels.filter(model => this.whitelist.includes(model.makeId))
-    this.whitelist.length > 0 ? this.setCurrentPageModels(filteredModels) : this.setCurrentPageModels(currentPageModels)
+  async fetchCurrentPageModels (currentPage = 1, sort = 'name') {
+    let currentPageModels = null
+    if (this.whitelist === null) {
+      currentPageModels = await VehicleModelService.getCurrentPageModels(currentPage, sort)
+    } else {
+      currentPageModels = await VehicleModelService.getFilteredModels(currentPage, sort, this.whitelist)
+    }
+    this.setCurrentPageModels(currentPageModels)
   }
 
   setCurrentPageModels (models) {
@@ -46,10 +53,6 @@ class ModelStore {
     this.sortDropdown = !this.sortDropdown
   }
 
-  setFilterMaker (whitelist) {
-    this.filterMakers = whitelist
-  }
-
   async setAllMakers () {
     const numberOfMakers = await VehicleMakeService.getNumberOfMakers()
     const allMakers = await VehicleMakeService.getAllMakers(numberOfMakers)
@@ -58,15 +61,27 @@ class ModelStore {
     })
   }
 
-  setWhitelist (event, makeId, currentPage) {
+  setFilterId (id) {
+    this.filterId = id
+  }
+
+  async setWhitelist (event, makeId, currentPage) {
     const checked = event.target.checked
-    if (checked) {
-      this.whitelist.push(makeId)
+    if (this.filterId === null || this.filterId === event.target.id) {
+      this.setFilterId(event.target.id)
+    } else if (this.filterId !== null && this.filterId !== event.target.id) {
+      document.getElementById(this.filterId).checked = false
+      this.setFilterId(event.target.id)
     } else {
-      const filteredWhitelist = this.whitelist.filter(id => id !== makeId)
-      this.whitelist = filteredWhitelist
+      this.setFilterId(event.target.id)
     }
-    this.fetchCurrentPageModels(currentPage)
+    if (checked) {
+      this.whitelist = makeId
+      this.fetchCurrentPageModels()
+    } else {
+      this.whitelist = null
+      this.fetchCurrentPageModels(currentPage)
+    }
   }
 }
 

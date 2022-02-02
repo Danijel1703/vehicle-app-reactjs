@@ -21,6 +21,11 @@ class CreateVehicleModelService {
     }
   }
 
+  async getFilteredModels (currentPage, sort, maker) {
+    const response = await axios.get(`${baseUrl}/resources/VehicleModel?searchQuery=WHERE makeId='${maker}'&page=${currentPage}&rpp=10&sort=${sort}`)
+    return response.data.item
+  }
+
   async getNumberOfModels () {
     try {
       const response = await axios.get(`${baseUrl}/resources/VehicleModel/`)

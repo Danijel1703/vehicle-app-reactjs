@@ -16,7 +16,7 @@ const Filter = observer(({ store }) => {
                 {
                     makers?.map(maker => <li key={maker.id}>
                         <p>{maker.name}</p>
-                        <input type='checkbox' onChange={event => store.setWhitelist(event, maker.id, currentPage)} />
+                        <input type='checkbox' id={maker.id} onChange={event => store.setWhitelist(event, maker.id, currentPage)} />
                     </li>)
                 }
             </ul>

@@ -3,12 +3,11 @@ import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { ToastContainer } from 'react-toastify'
 import '../EditMaker.css'
+import AddNewMakerStore from '../Stores/AddNewMakerStore'
 
-const MakerInfo = observer(({ store }) => {
+const MakerInfo = observer(({ store, form }) => {
   const { id } = useParams()
   const selectedMaker = store.selectedMaker
-  const form = store.form
-  form.$('id').set(id)
 
   useEffect(() => {
     store.getSelectedMaker(id)
@@ -39,12 +38,14 @@ const MakerInfo = observer(({ store }) => {
         </div>
         <div className='button-container'>
           <button type="submit" onClick={async (event) => {
+            AddNewMakerStore.setSubmit('update')
             form.onSubmit(event)
-            setTimeout(() => { store.getSelectedMaker(id) }, 0)
+            setTimeout(() => { store.getSelectedMaker(id) }, 5)
           }}
             className='insert-button-add'>Submit</button>
           <button type="button" onClick={(event) => {
-            form.$('name').set('delete')
+            AddNewMakerStore.setSubmit('delete')
+            form?.$('name').set('delete')
             form.onSubmit(event)
           }} className='clear-button'>Delete</button>
           <p>{form.error}</p>

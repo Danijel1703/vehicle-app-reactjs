@@ -3,9 +3,7 @@ import '../AddNewMaker.css'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const AddNewMaker = observer(({ store }) => {
-  const form = store.form
-
+const AddNewMaker = observer(({ store, form }) => {
   return (
     <div>
       <ToastContainer
@@ -21,16 +19,16 @@ const AddNewMaker = observer(({ store }) => {
       icon={true} />
       <form className='add-new-form'>
         <div className='text-input'>
-          <label className='form-label' htmlFor={form.$('name').id}>
-            {form.$('name').label}
+          <label className='form-label' htmlFor={form?.$('name').id}>
+            {form?.$('name').label}
           </label>
-          <input className='form-input' {...form.$('name').bind()} />
-          <p className='form-p-error'>{form.$('name').error}</p>
+          <input className='form-input' {...form?.$('name').bind()} />
+          <p className='form-p-error'>{form?.$('name').error}</p>
         </div>
         <div className='button-container'>
-          <button type="submit" onClick={form.onSubmit} className='insert-button-add'>Submit</button>
-          <button type="button" onClick={form.onClear} className='clear-button'>Clear</button>
-          <p>{form.error}</p>
+          <button type="submit" onClick={(event) => { form?.onSubmit(event); store.setSubmit('submit') }} className='insert-button-add'>Submit</button>
+          <button type="button" onClick={form?.onClear} className='clear-button'>Clear</button>
+          <p>{form?.error}</p>
         </div>
       </form>
     </div>

@@ -2,9 +2,8 @@ import { observer } from 'mobx-react-lite'
 import { ToastContainer } from 'react-toastify'
 import '../AddNewModel.css'
 
-const AddNewModel = observer(({ store }) => {
+const AddNewModel = observer(({ store, form }) => {
   const makers = store.allMakers
-  const form = store.form
 
   return (
     <div>
@@ -45,7 +44,7 @@ const AddNewModel = observer(({ store }) => {
           <p className='form-p-error'>{form.$('name').error}</p>
         </div>
         <div className='button-container'>
-          <button type="submit" onClick={form.onSubmit} className='insert-button-add'>Submit</button>
+          <button type="submit" onClick={(event) => { form.onSubmit(event); store.setSubmit('submit') }} className='insert-button-add'>Submit</button>
           <button type="button" onClick={form.onClear} className='clear-button'>Clear</button>
           <p>{form.error}</p>
         </div>
